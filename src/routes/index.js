@@ -22,7 +22,6 @@ router.use("/api", router);
 router.use(checkAPIKey);
 router.use(checkPermission(PERMISSION.ZERO));
 router.use("/shop", ShopRouter);
-router.use(authenticate);
 router.use("/product", ProductRouter);
 
 router.use(notFound);

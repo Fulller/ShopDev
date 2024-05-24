@@ -20,13 +20,13 @@ const ShopValidate = {
 };
 const ProductValidate = {
   create: Joi.object({
-    name: Joi.string().required(),
-    thumb: Joi.string().required(),
-    description: Joi.string(),
-    price: Joi.number().required(),
-    quantity: Joi.number().required(),
-    type: Joi.string().required(),
-    attribute: Joi.any(),
+    product_name: Joi.string().required(),
+    product_thumb: Joi.string().required(),
+    product_description: Joi.string(),
+    product_price: Joi.number().required(),
+    product_quantity: Joi.number().required(),
+    product_type: Joi.string().required(),
+    product_attribute: Joi.any(),
   }),
 };
 export { ShopValidate, ProductValidate };
