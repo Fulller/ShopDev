@@ -17,7 +17,6 @@ function responseFlying(req, res, next) {
   next();
 }
 function handleError(err, req, res, next) {
-  console.log({ err });
   return res.fly({
     status: err.status || 500,
     message: err.message,

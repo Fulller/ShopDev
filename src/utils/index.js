@@ -23,4 +23,36 @@ function getUnselectData(unselect = []) {
     {}
   );
 }
-export { pickAccountData, getSelectData, getUnselectData };
+function removeNullUndefined(obj) {
+  return _.transform(obj, (result, value, key) => {
+    if (_.isObject(value)) {
+      const nested = removeNullUndefined(value);
+      if (!_.isEmpty(nested)) {
+        result[key] = nested;
+      }
+    } else if (value !== null && value !== undefined) {
+      result[key] = value;
+    }
+  });
+}
+function updateNested(obj) {
+  const final = {};
+  Object.keys(obj).forEach((k) => {
+    if (typeof obj[k] == "object" && !Array.isArray(obj[k])) {
+      const response = updateNested(obj[k]);
+      Object.keys(response).forEach((a) => {
+        final[`${k}.${a}`] = response[a];
+      });
+    } else {
+      final[k] = obj[k];
+    }
+  });
+  return final;
+}
+export {
+  pickAccountData,
+  getSelectData,
+  getUnselectData,
+  removeNullUndefined,
+  updateNested,
+};

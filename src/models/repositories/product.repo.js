@@ -1,10 +1,14 @@
 import { Product, Electronic, Clothing } from "../index.js";
 import { Types } from "mongoose";
 import createHttpError from "http-errors";
-import { getSelectData, getUnselectData } from "../../utils/index.js";
+import {
+  getSelectData,
+  getUnselectData,
+  updateNested,
+} from "../../utils/index.js";
 
 const ProductRepo = {
-  query: async function ({ query, limit, skip }) {
+  async query({ query, limit, skip }) {
     return await Product.find(query)
       .populate("product_shop", "name email -_id")
       .sort({ updateAt: -1 })
@@ -13,13 +17,13 @@ const ProductRepo = {
       .lean()
       .exec();
   },
-  findAllDraftsForShop: async function ({ query, limit, skip }) {
+  async findAllDraftsForShop({ query, limit, skip }) {
     return await this.query({ query, limit, skip });
   },
-  findAllPublishForShop: async function ({ query, limit, skip }) {
+  async findAllPublishForShop({ query, limit, skip }) {
     return await this.query({ query, limit, skip });
   },
-  publishProductByShop: async function ({ product_shop, product_id }) {
+  async publishProductByShop({ product_shop, product_id }) {
     const foundProduct = await Product.findOne({
       _id: new Types.ObjectId(product_id),
       product_shop: new Types.ObjectId(product_shop),
@@ -31,7 +35,7 @@ const ProductRepo = {
     // const { modifiedCount } = await Product.update(foundProduct);
     return foundProduct;
   },
-  unpublishProductByShop: async function ({ product_shop, product_id }) {
+  async unpublishProductByShop({ product_shop, product_id }) {
     const foundProduct = await Product.findOne({
       _id: new Types.ObjectId(product_id),
       product_shop: new Types.ObjectId(product_shop),
@@ -43,7 +47,7 @@ const ProductRepo = {
     // const { modifiedCount } = await Product.update(foundProduct);
     return foundProduct;
   },
-  searchProductByUser: async function ({ keySearch }) {
+  async searchProductByUser({ keySearch }) {
     const regexSearch = new RegExp(keySearch);
     const results = await Product.find(
       {
@@ -56,7 +60,7 @@ const ProductRepo = {
       .lean();
     return results;
   },
-  findAllProducts: async function ({ limit, sort, page, filter, select }) {
+  async findAllProducts({ limit, sort, page, filter, select }) {
     const skip = (page - 1) * limit;
     const sortBy = sort === "ctime" ? { _id: -1 } : { _id: 1 };
     return await Product.find(filter)
@@ -66,10 +70,19 @@ const ProductRepo = {
       .select(getSelectData(select))
       .lean();
   },
-  findProduct: async function ({ product_id, unselect }) {
+  async findProduct({ product_id, unselect }) {
     return await Product.findById(new Types.ObjectId(product_id))
       .select(getUnselectData(unselect))
       .lean();
+  },
+  async updateProductById({ product_id, payload, Model, isNew = true }) {
+    return await Model.findByIdAndUpdate(
+      product_id,
+      { $set: updateNested(payload) },
+      {
+        new: isNew,
+      }
+    );
   },
 };
 

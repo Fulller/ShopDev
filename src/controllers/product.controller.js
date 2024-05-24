@@ -8,13 +8,28 @@ const ProductController = {
     const payload = _.chain(req)
       .get("body")
       .set("product_shop", product_shop)
-      .set("product_attribute.shop", product_shop)
+      .set("product_attributes.shop", product_shop)
       .value();
     const newProduct = await ProductService.createProduct(payload);
     return res.fly({
       status: 200,
       message: `Create product successfuly`,
       metadata: newProduct,
+    });
+  },
+  async updateProduct(req, res) {
+    const product_id = _.get(req, "params.id");
+    const product_shop = _.get(req, "user._id");
+    const payload = req.body;
+    const product = await ProductService.updateProduct({
+      product_id,
+      product_shop,
+      payload,
+    });
+    return res.fly({
+      status: 200,
+      message: `Update product successfuly`,
+      metadata: product,
     });
   },
   async getAllDraftsForShop(req, res) {

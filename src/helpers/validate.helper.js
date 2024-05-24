@@ -26,7 +26,7 @@ const ProductValidate = {
     product_price: Joi.number().required(),
     product_quantity: Joi.number().required(),
     product_type: Joi.string().required(),
-    product_attribute: Joi.any(),
+    product_attributes: Joi.any(),
   }),
 };
 export { ShopValidate, ProductValidate };

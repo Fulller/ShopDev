@@ -20,6 +20,7 @@ ProductRouter.post(
   validate(ProductValidate.create),
   controller(ProductController.create)
 );
+ProductRouter.patch("/:id", controller(ProductController.updateProduct));
 ProductRouter.post(
   "/publish/:id",
   controller(ProductController.publishProductByShop)

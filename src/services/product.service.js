@@ -1,7 +1,9 @@
+import { Types } from "mongoose";
 import { Product, Clothing, Electronic } from "../models/index.js";
 import ProductRepo from "../models/repositories/product.repo.js";
 import createHttpError from "http-errors";
 import _ from "lodash";
+import { removeNullUndefined, updateNested } from "../utils/index.js";
 
 export default class ProductFactory {
   static productRegistry = {};
@@ -12,7 +14,15 @@ export default class ProductFactory {
     const type = _.get(payload, "product_type");
     const productClass = ProductFactory.productRegistry[type];
     if (!productClass) throw createHttpError(400, "Invalid product type");
-    return new productClass(payload).createProduct();
+    return await new productClass(payload).createProduct();
+  }
+  static async updateProduct({ product_id, product_shop, payload }) {
+    const type = _.get(payload, "product_type");
+    const productClass = ProductFactory.productRegistry[type];
+    if (!productClass) throw createHttpError(400, "Invalid product type");
+    return await new productClass(removeNullUndefined(payload)).updateProduct(
+      product_id
+    );
   }
   static async findAllDraftsForShop({ product_shop, limit = 50, skip = 0 }) {
     const query = { product_shop, isDraft: true };
@@ -68,7 +78,7 @@ class ProductService {
     product_quantity,
     product_type,
     product_shop,
-    product_attribute,
+    product_attributes,
   }) {
     this.product_name = product_name;
     this.product_thumb = product_thumb;
@@ -77,16 +87,23 @@ class ProductService {
     this.product_quantity = product_quantity;
     this.product_type = product_type;
     this.product_shop = product_shop;
-    this.product_attribute = product_attribute;
+    this.product_attributes = product_attributes;
   }
   async createProduct() {
     return await Product.create(this);
+  }
+  async updateProduct({ product_id, payload }) {
+    return await ProductRepo.updateProductById({
+      product_id,
+      payload,
+      Model: Product,
+    });
   }
 }
 
 class ClothingService extends ProductService {
   async createProduct() {
-    const newClothing = await Clothing.create(this.product_attribute);
+    const newClothing = await Clothing.create(this.product_attributes);
     if (_.isEmpty(newClothing)) {
       throw createHttpError(400, "Create new clothing is error");
     }
@@ -97,12 +114,24 @@ class ClothingService extends ProductService {
     }
     return newProduct;
   }
+  async updateProduct(product_id) {
+    const payload = this;
+    if (payload.product_attributes) {
+      await ProductRepo.updateProductById({
+        product_id,
+        payload: payload.product_attributes,
+        Model: Clothing,
+      });
+    }
+    const updatedProduct = await super.updateProduct({ product_id, payload });
+    return updatedProduct;
+  }
 }
 ProductFactory.registerTypeProduct("Clothing", ClothingService);
 
 class ElectronicService extends ProductService {
   async createProduct() {
-    const newElectronic = await Electronic.create(this.product_attribute);
+    const newElectronic = await Electronic.create(this.product_attributes);
     if (_.isEmpty(newElectronic)) {
       throw createHttpError(400, "Create new electronic is error");
     }
@@ -112,6 +141,21 @@ class ElectronicService extends ProductService {
       throw createHttpError(400, "Create new product is error");
     }
     return newProduct;
+  }
+  async updateProduct(product_id) {
+    const payload = this;
+    if (payload.product_attributes) {
+      await ProductRepo.updateProductById({
+        product_id,
+        payload: payload.product_attributes,
+        Model: Electronic,
+      });
+    }
+    const updatedProduct = await super.updateProduct({
+      product_id,
+      payload: payload,
+    });
+    return updatedProduct;
   }
 }
 ProductFactory.registerTypeProduct("Electronic", ElectronicService);
