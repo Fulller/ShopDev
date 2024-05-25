@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import { Product, Clothing, Electronic } from "../models/index.js";
 import ProductRepo from "../models/repositories/product.repo.js";
+import InventoryRepo from "../models/repositories/inventory.repo.js";
 import createHttpError from "http-errors";
 import _ from "lodash";
 import { removeNullUndefined, updateNested } from "../utils/index.js";
@@ -90,7 +91,14 @@ class ProductService {
     this.product_attributes = product_attributes;
   }
   async createProduct() {
-    return await Product.create(this);
+    const newProduct = await Product.create(this);
+    if (!newProduct) throw createHttpError(400, "Cannot create new product");
+    await InventoryRepo.insertInventory({
+      inven_productId: newProduct._id,
+      inven_shopId: this.product_shop,
+      inven_stock: this.product_quantity,
+    });
+    return newProduct;
   }
   async updateProduct({ product_id, payload }) {
     return await ProductRepo.updateProductById({
