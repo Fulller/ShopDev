@@ -1,5 +1,9 @@
 import Joi from "joi";
-import { HEADER } from "../configs/const.config.js";
+import {
+  HEADER,
+  DISCOUNT_TYPES,
+  DISCOUNT_APPLIES_TO,
+} from "../configs/const.config.js";
 
 const ShopValidate = {
   signUp: Joi.object({
@@ -29,4 +33,31 @@ const ProductValidate = {
     product_attributes: Joi.any(),
   }),
 };
-export { ShopValidate, ProductValidate };
+const DiscountValidate = {
+  createDiscountByShop: Joi.object({
+    name: Joi.string().required(),
+    description: Joi.string().required(),
+    type: Joi.string()
+      .valid(...Object.values(DISCOUNT_TYPES))
+      .required(),
+    value: Joi.number().required(),
+    code: Joi.string(),
+    start_date: Joi.date().required().greater("now").messages({
+      "date.greater":
+        "start_date must be greater than or equal to the current date",
+    }),
+    end_date: Joi.date().required().greater(Joi.ref("start_date")).messages({
+      "date.greater": "end_date must be greater than start_date",
+    }),
+    max_uses: Joi.number().required(),
+    users_used: Joi.array(),
+    max_uses_per_user: Joi.number().required(),
+    min_order_value: Joi.number().required(),
+    is_active: Joi.bool(),
+    applies_to: Joi.string()
+      .valid(...Object.values(DISCOUNT_APPLIES_TO))
+      .required(),
+    product_ids: Joi.array(),
+  }).with("start_date", "end_date"),
+};
+export { ShopValidate, ProductValidate, DiscountValidate };

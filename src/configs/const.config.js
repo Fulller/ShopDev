@@ -18,4 +18,13 @@ const PERMISSION = {
   TWO: "2222",
 };
 
-export { RoleShop, HEADER, PERMISSION };
+const DISCOUNT_TYPES = {
+  FIXED_AMOUNT: "fixed_amount",
+  PERCENTAGE: "percentage",
+  FREE_SHIPPING: "free_shipping",
+  VOLUME: "volume",
+  SEASONAL: "seasonal",
+};
+const DISCOUNT_APPLIES_TO = { ALL: "all", SPECIFIC: "specific" };
+
+export { RoleShop, HEADER, PERMISSION, DISCOUNT_TYPES, DISCOUNT_APPLIES_TO };

@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { Types } from "mongoose";
 function pickAccountData(profile) {
   const pick = ["_id", "email", "name", "roles"];
   return _.pick(profile, pick);
@@ -49,10 +50,14 @@ function updateNested(obj) {
   });
   return final;
 }
+function toObjectId(id) {
+  return new Types.ObjectId(id);
+}
 export {
   pickAccountData,
   getSelectData,
   getUnselectData,
   removeNullUndefined,
   updateNested,
+  toObjectId,
 };
