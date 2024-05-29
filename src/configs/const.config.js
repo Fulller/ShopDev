@@ -26,5 +26,17 @@ const DISCOUNT_TYPES = {
   SEASONAL: "seasonal",
 };
 const DISCOUNT_APPLIES_TO = { ALL: "all", SPECIFIC: "specific" };
-
-export { RoleShop, HEADER, PERMISSION, DISCOUNT_TYPES, DISCOUNT_APPLIES_TO };
+const CART_STATES = {
+  ACTIVE: "active",
+  COMPLETED: "completed",
+  FAILED: "failed",
+  PENDING: "pending",
+};
+export {
+  RoleShop,
+  HEADER,
+  PERMISSION,
+  DISCOUNT_TYPES,
+  DISCOUNT_APPLIES_TO,
+  CART_STATES,
+};

@@ -52,7 +52,7 @@ export default class ProductFactory {
     sort = "ctime",
     page = 1,
     filter = { isPublished: true },
-    select = ["product_name", "product_price", "product_thumb"],
+    select = ["product_name", "product_price", "product_thumb", "product_shop"],
   }) {
     return await ProductRepo.findAllProducts({
       limit,

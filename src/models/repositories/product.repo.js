@@ -5,9 +5,13 @@ import {
   getSelectData,
   getUnselectData,
   updateNested,
+  toObjectId,
 } from "../../utils/index.js";
 
 const ProductRepo = {
+  async getProductById(id) {
+    return await Product.findById(toObjectId(id)).lean();
+  },
   async query({ query, limit, skip }) {
     return await Product.find(query)
       .populate("product_shop", "name email -_id")

@@ -4,13 +4,13 @@ import {
   checkAPIKey,
   checkPermission,
   notFound,
-  authenticate,
 } from "../middlewares/index.js";
 import { Router } from "express";
 import ShopRouter from "./shop.route.js";
 import APIKeyRouter from "./apikey.route.js";
 import ProductRouter from "./product.route.js";
 import DiscountRouter from "./discount.route.js";
+import CartRouter from "./cart.route.js";
 
 import { PERMISSION } from "../configs/const.config.js";
 const router = Router();
@@ -25,6 +25,7 @@ router.use(checkPermission(PERMISSION.ZERO));
 router.use("/shop", ShopRouter);
 router.use("/product", ProductRouter);
 router.use("/discount", DiscountRouter);
+router.use("/cart", CartRouter);
 
 router.use(notFound);
 router.use(handleError);
