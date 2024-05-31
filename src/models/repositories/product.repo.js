@@ -88,6 +88,22 @@ const ProductRepo = {
       }
     );
   },
+  async checkProductByServer(products) {
+    return await Promise.all(
+      products.map(async (product) => {
+        const foundProduct = await ProductRepo.getProductById(
+          product.productId
+        );
+        if (foundProduct) {
+          return {
+            price: foundProduct.product_price,
+            quantity: product.quantity,
+            productId: product.productId,
+          };
+        }
+      })
+    );
+  },
 };
 
 export default ProductRepo;

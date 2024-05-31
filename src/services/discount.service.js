@@ -135,12 +135,9 @@ const DiscountService = {
     }
     let totalOrder = 0;
     if (discount_min_order_value > 0) {
-      totalOrder = products.reduce(
-        (acc, { product_quantity, product_price }) => {
-          return acc + product_quantity * product_price;
-        },
-        0
-      );
+      totalOrder = products.reduce((acc, { quantity, price }) => {
+        return acc + quantity * price;
+      }, 0);
       if (totalOrder < discount_min_order_value) {
         throw createHttpError(
           "400",
@@ -148,18 +145,19 @@ const DiscountService = {
         );
       }
     }
-    let amount = totalOrder;
+    let amount = 0;
     switch (discount_type) {
       case DISCOUNT_TYPES.FIXED_AMOUNT: {
         amount = discount_value;
         break;
       }
       case DISCOUNT_TYPES.PERCENTAGE: {
-        amount = (totalOrder * (100 - discount_value)) / 100;
+        amount = (totalOrder * discount_value) / 100;
         break;
       }
     }
     const totalPrice = totalOrder - amount;
+    console.log({ totalOrder, amount, totalPrice });
     return { totalOrder, amount, totalPrice };
   },
   async deleteDiscount({ discountId, shopId }) {
