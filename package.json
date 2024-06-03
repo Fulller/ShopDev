@@ -27,6 +27,7 @@
     "mongoose": "^8.0.4",
     "morgan": "^1.10.0",
     "node-schedule": "^2.1.1",
+    "redis": "^4.6.14",
     "slugify": "^1.6.6"
   },
   "devDependencies": {

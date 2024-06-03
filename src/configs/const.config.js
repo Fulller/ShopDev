@@ -32,6 +32,14 @@ const CART_STATES = {
   FAILED: "failed",
   PENDING: "pending",
 };
+
+const ORDER_STATUS = {
+  PENDING: "pending",
+  CONFIRMED: "confirmed",
+  SHIPPED: "shipped",
+  CANCELLED: "cancelled",
+  DELIVERED: "delivered",
+};
 export {
   RoleShop,
   HEADER,
@@ -39,4 +47,5 @@ export {
   DISCOUNT_TYPES,
   DISCOUNT_APPLIES_TO,
   CART_STATES,
+  ORDER_STATUS,
 };
