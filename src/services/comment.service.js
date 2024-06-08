@@ -9,20 +9,26 @@ const CommentService = {
     if (parentId) {
       const parentComment = await Comment.findById(parentId).session(session);
       if (!parentComment) {
-        throw new Error("Parent comment not found");
+        throw createHttpError(404, "Parent comment not found");
       }
 
       newLeft = parentComment.comment_right;
       newRight = newLeft + 1;
 
       await Comment.updateMany(
-        { comment_right: { $gte: parentComment.comment_right } },
+        {
+          comment_productId: productId,
+          comment_right: { $gte: parentComment.comment_right },
+        },
         { $inc: { comment_right: 2 } },
         { session }
       );
 
       await Comment.updateMany(
-        { comment_left: { $gt: parentComment.comment_right } },
+        {
+          comment_productId: productId,
+          comment_left: { $gt: parentComment.comment_right },
+        },
         { $inc: { comment_left: 2 } },
         { session }
       );
