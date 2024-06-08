@@ -3,6 +3,7 @@ import { APIKeyService, JWTService } from "../services/index.js";
 import { HEADER } from "../configs/const.config.js";
 import createHttpError from "http-errors";
 import _ from "lodash";
+import mongoose from "mongoose";
 
 function responseFlying(req, res, next) {
   res.fly = ({ status, code, message, metadata, option }) => {
@@ -108,6 +109,20 @@ async function authenticateWithRefreshToken(req, res, next) {
   req.user = user;
   next();
 }
+async function serviceWithSession(callback, params) {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try {
+    const result = await callback(params, session);
+    await session.commitTransaction();
+    return result;
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    session.endSession();
+  }
+}
 
 export {
   responseFlying,
@@ -119,4 +134,5 @@ export {
   controller,
   authenticate,
   authenticateWithRefreshToken,
+  serviceWithSession,
 };

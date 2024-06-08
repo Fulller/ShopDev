@@ -13,6 +13,7 @@ import DiscountRouter from "./discount.route.js";
 import CartRouter from "./cart.route.js";
 import CheckoutRouter from "./checkout.route.js";
 import InventoryRouter from "./inventory.route.js";
+import CommentRouter from "./comment.route.js";
 
 import { PERMISSION } from "../configs/const.config.js";
 const router = Router();
@@ -30,6 +31,7 @@ router.use("/discount", DiscountRouter);
 router.use("/cart", CartRouter);
 router.use("/checkout", CheckoutRouter);
 router.use("/inventory", InventoryRouter);
+router.use("/comment", CommentRouter);
 
 router.use(notFound);
 router.use(handleError);

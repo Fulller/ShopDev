@@ -60,4 +60,15 @@ const DiscountValidate = {
     product_ids: Joi.array(),
   }).with("start_date", "end_date"),
 };
-export { ShopValidate, ProductValidate, DiscountValidate };
+
+const CommentValidate = {
+  addComment: Joi.object({
+    productId: Joi.string().pattern(new RegExp("^[0-9a-fA-F]{24}$")).required(),
+    content: Joi.string().required(),
+    userId: Joi.number().required(),
+    parentId: Joi.string()
+      .pattern(new RegExp("^[0-9a-fA-F]{24}$"))
+      .allow(null, ""),
+  }),
+};
+export { ShopValidate, ProductValidate, DiscountValidate, CommentValidate };
