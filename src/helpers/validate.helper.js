@@ -70,5 +70,9 @@ const CommentValidate = {
       .pattern(new RegExp("^[0-9a-fA-F]{24}$"))
       .allow(null, ""),
   }),
+  deleteComment: Joi.object({
+    productId: Joi.string().pattern(new RegExp("^[0-9a-fA-F]{24}$")).required(),
+    commentId: Joi.string().pattern(new RegExp("^[0-9a-fA-F]{24}$")).required(),
+  }),
 };
 export { ShopValidate, ProductValidate, DiscountValidate, CommentValidate };

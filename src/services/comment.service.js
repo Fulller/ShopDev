@@ -1,4 +1,5 @@
 import Comment from "../models/comment.model.js";
+import ProductRepo from "../models/repositories/product.repo.js";
 import createHttpError from "http-errors";
 import { getSelectData } from "../utils/index.js";
 
@@ -93,6 +94,41 @@ const CommentService = {
         ])
       )
       .sort({ comment_left: 1 });
+  },
+  async deleteComment({ productId, commentId }) {
+    const product = await ProductRepo.getProductById(productId);
+    if (!product) {
+      throw createHttpError(404, "Product nout found");
+    }
+    const comment = await Comment.findById(commentId).lean();
+    if (!comment) {
+      throw createHttpError(404, "Comment nout found");
+    }
+    const { comment_right, comment_left } = comment;
+    const width = comment_right - comment_left + 1;
+    await Comment.deleteMany({
+      comment_productId: productId,
+      comment_left: { $gte: comment.comment_left },
+      comment_right: { $lte: comment.comment_right },
+    });
+    await Comment.updateMany(
+      {
+        comment_productId: productId,
+        comment_right: { $gt: comment_right },
+      },
+      {
+        $inc: { comment_right: -width },
+      }
+    );
+    await Comment.updateMany(
+      {
+        comment_productId: productId,
+        comment_left: { $gte: comment_right },
+      },
+      {
+        $inc: { comment_left: -width },
+      }
+    );
   },
 };
 
