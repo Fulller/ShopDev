@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 import { Product, Clothing, Electronic } from "../models/index.js";
 import ProductRepo from "../models/repositories/product.repo.js";
 import InventoryRepo from "../models/repositories/inventory.repo.js";
+import NotificationService from "./notification.service.js";
 import createHttpError from "http-errors";
 import _ from "lodash";
 import { removeNullUndefined, updateNested } from "../utils/index.js";
@@ -98,6 +99,15 @@ class ProductService {
       inven_shopId: this.product_shop,
       inven_stock: this.product_quantity,
     });
+    NotificationService.pushNotiToSystem({
+      senderId: this.product_shop,
+      options: {
+        product_name: this.product_name,
+        shop_name: this.product_shop,
+      },
+    })
+      .then(console.log)
+      .catch(console.error);
     return newProduct;
   }
   async updateProduct({ product_id, payload }) {
