@@ -21,12 +21,8 @@ async function produce() {
     });
 
     // Create the queue with dead letter settings
-    const queueResult = await channel.assertQueue(notificationQueue, {
-      exclusive: false,
-      durable: true,
-      deadLetterExchange: notificationExchangeDLX,
-      deadLetterRoutingKey: notificationRoutingKeyDLX,
-    });
+    
+      
 
     // Bind the queue to the main exchange
     await channel.bindQueue(queueResult.queue, notificationExchange, "");
