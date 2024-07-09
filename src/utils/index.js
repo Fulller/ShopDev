@@ -1,5 +1,7 @@
 import _ from "lodash";
 import { Types } from "mongoose";
+import slugify from "slugify";
+
 function pickAccountData(profile) {
   const pick = ["_id", "email", "name", "roles"];
   return _.pick(profile, pick);
@@ -53,6 +55,17 @@ function updateNested(obj) {
 function toObjectId(id) {
   return new Types.ObjectId(id);
 }
+function convertToSlug(text) {
+  return slugify(text.replace(/[^\w\s.]/gi, ""), {
+    replacement: "_", // replace spaces with replacement character, defaults to `-`
+    remove: undefined, // remove characters that match regex, defaults to `undefined`
+    lower: true, // convert to lower case, defaults to `false`
+    strict: false, // strip special characters except replacement, defaults to `false`
+    locale: "vi", // language code of the locale to use
+    trim: true, // trim leading and trailing replacement chars, defaults to `true`
+  });
+}
+
 export {
   pickAccountData,
   getSelectData,
@@ -60,4 +73,5 @@ export {
   removeNullUndefined,
   updateNested,
   toObjectId,
+  convertToSlug,
 };

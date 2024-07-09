@@ -15,6 +15,7 @@ import CheckoutRouter from "./checkout.route.js";
 import InventoryRouter from "./inventory.route.js";
 import CommentRouter from "./comment.route.js";
 import NotificationRouter from "./notification.route.js";
+import UploadRouter from "./upload.route.js";
 
 import { PERMISSION } from "../configs/const.config.js";
 const router = Router();
@@ -34,6 +35,7 @@ router.use("/checkout", CheckoutRouter);
 router.use("/inventory", InventoryRouter);
 router.use("/comment", CommentRouter);
 router.use("/notification", NotificationRouter);
+router.use("/upload", UploadRouter);
 
 router.use(notFound);
 router.use(handleError);

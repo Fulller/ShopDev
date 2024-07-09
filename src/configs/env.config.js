@@ -13,9 +13,17 @@ const env = {
     sessionSecret: getEnvValue("APP_SESSTIONSECRET", "OurFormSECRET"),
     serverUrl: getEnvValue("APP_SERVERURL", "http://localhost:8000"),
     alwaysLive: getEnvValue("APP_ALWAYSLIVE", 1),
+    limitUpload: _.toNumber(getEnvValue("APP_LIMITUPLOAD", "100")), // MB
   },
   db: {
     mongodb: getEnvValue("DB_MONGODB", "mongodb://localhost:27017/ShopDev"),
+    minio: {
+      endPoint: getEnvValue("DB_MINIO_ENDPOINT", "localhost"),
+      port: _.toNumber(getEnvValue("DB_MINIO_PORT", "9000")),
+      accessKey: getEnvValue("DB_MINIO_ACCESSKEY", "MINIO_ACCESS_KEY"),
+      secretKey: getEnvValue("DB_MINIO_SECRETKEY", "MINIO_SECRET_KEY"),
+      bucketName: getEnvValue("DB_MINIO_BUCKETNAME", "shopdev"),
+    },
   },
   auth: {
     google: {
