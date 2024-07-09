@@ -8,7 +8,7 @@ const UploadController = {
     res.fly({ status: 200, metadata: { fileUrl } });
   },
   deleteFile: async function (req, res) {
-    const fileUrl = req.query.file_url || req.body.file_url;
+    const fileUrl = req.query.fileUrl || req.body.fileUrl;
     await MinioService.deleteFile(fileUrl);
     res.fly({
       status: 200,

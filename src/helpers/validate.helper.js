@@ -60,7 +60,6 @@ const DiscountValidate = {
     product_ids: Joi.array(),
   }).with("start_date", "end_date"),
 };
-
 const CommentValidate = {
   addComment: Joi.object({
     productId: Joi.string().pattern(new RegExp("^[0-9a-fA-F]{24}$")).required(),
@@ -75,4 +74,21 @@ const CommentValidate = {
     commentId: Joi.string().pattern(new RegExp("^[0-9a-fA-F]{24}$")).required(),
   }),
 };
-export { ShopValidate, ProductValidate, DiscountValidate, CommentValidate };
+const FileValidate = {
+  singleFile: Joi.any().required().messages({
+    "any.required": "There must be a file",
+  }),
+  deleteImage: Joi.object({
+    imageUrl: Joi.string().uri().required(),
+  }),
+  deleteFile: Joi.object({
+    fileUrl: Joi.string().uri().required(),
+  }),
+};
+export {
+  ShopValidate,
+  ProductValidate,
+  DiscountValidate,
+  CommentValidate,
+  FileValidate,
+};

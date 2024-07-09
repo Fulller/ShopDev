@@ -8,7 +8,7 @@ const CloudinaryController = {
     return res.fly({ status: 200, metadata: { imageUrl: url } });
   },
   deleteImage: async function (req, res) {
-    const imageUrl = req.query.image_url || req.body.image_url;
+    const imageUrl = req.query.imageUrl || req.body.imageUrl;
     const result = await CloudinaryService.deleteImage(imageUrl);
     return res.fly({
       status: 200,

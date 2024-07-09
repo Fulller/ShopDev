@@ -57,23 +57,39 @@ function checkPermission(permission) {
     }
   };
 }
-function validate(schema, fileds = "body", pick) {
+function validate(schema, fields = "body", pick) {
   return (req, res, next) => {
-    let data = _.get(req, fileds);
+    let data;
+    if (_.isArray(fields)) {
+      data = fields.reduce((acc, field) => {
+        const value = _.get(req, field);
+        if (value !== undefined) {
+          acc = { ...acc, ...value };
+        }
+        return acc;
+      }, {});
+    } else {
+      data = _.get(req, fields);
+    }
+
     if (pick) {
       data = _.pick(data, pick);
     }
-    let { error } = schema.validate(data);
+
+    const { error } = schema.validate(data, { abortEarly: false });
+
     if (error) {
-      error.details = error.details.map((d) => ({
+      const details = error.details.map((d) => ({
         message: d.message.replace(/['"]/g, ""),
         path: d.path,
       }));
-      return next(createHttpError(400, error.details[0].message));
+      return next(createHttpError(400, details[0].message));
     }
+
     next();
   };
 }
+
 function controller(fnController) {
   return (req, res, next) => {
     fnController(req, res, next).catch(next);

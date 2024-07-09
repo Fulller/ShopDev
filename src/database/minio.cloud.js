@@ -4,6 +4,7 @@ import env from "../configs/env.config.js";
 const minioClient = new Minio.Client({
   endPoint: env.db.minio.endPoint,
   port: env.db.minio.port,
+  // region: env.db.aws.region,
   useSSL: false,
   accessKey: env.db.minio.accessKey,
   secretKey: env.db.minio.secretKey,
