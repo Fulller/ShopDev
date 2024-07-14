@@ -5,7 +5,7 @@ const AWSS3Controller = {
     return res.fly({
       status: 200,
       message: "Upload to S3 successfuly",
-      metadata: await AWSS3Service.uploadFile(req.file),
+      metadata: { fileUrl: await AWSS3Service.uploadFile(req.file) },
     });
   },
 };

@@ -52,10 +52,16 @@ const env = {
       folder: getEnvValue("CLOUD_CLOUDINARY_FOLDER", "shop_dev"),
     },
     s3: {
-      accessKeyId: getEnvValue("CLOUD_S3_ACCESSKEYID"),
-      secretAccessKey: getEnvValue("CLOUD_S3_SECRETACCESSKEY"),
-      region: getEnvValue("CLOUD_S3_REGION"),
-      bucketName: getEnvValue("CLOUD_S3_BUCKETNAME"),
+      accessKeyId: getEnvValue("CLOUD_S3_ACCESSKEYID", "AKIA47CRVW4TDUQC4NUJ"),
+      secretAccessKey: getEnvValue(
+        "CLOUD_S3_SECRETACCESSKEY",
+        "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"
+      ),
+      region: getEnvValue("CLOUD_S3_REGION", "ap-southeast-1"),
+      bucketName: getEnvValue(
+        "CLOUD_S3_BUCKETNAME",
+        "prokenpromiseboy-bucket-shopdev"
+      ),
     },
   },
 };
