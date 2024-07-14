@@ -17,13 +17,6 @@ const env = {
   },
   db: {
     mongodb: getEnvValue("DB_MONGODB", "mongodb://localhost:27017/ShopDev"),
-    minio: {
-      endPoint: getEnvValue("DB_MINIO_ENDPOINT", "localhost"),
-      port: _.toNumber(getEnvValue("DB_MINIO_PORT", "9000")),
-      accessKey: getEnvValue("DB_MINIO_ACCESSKEY", "MINIO_ACCESS_KEY"),
-      secretKey: getEnvValue("DB_MINIO_SECRETKEY", "MINIO_SECRET_KEY"),
-      bucketName: getEnvValue("DB_MINIO_BUCKETNAME", "shopdev"),
-    },
   },
   auth: {
     google: {
@@ -44,11 +37,26 @@ const env = {
     access_ex: _.toNumber(getEnvValue("JWT_ACCESS_EX", "3600")),
     refresh_ex: _.toNumber(getEnvValue("JWT_REFRESH_EX", "7200")),
   },
-  cloudinary: {
-    cloud_name: getEnvValue("CLOUDINARY_CLOUD_NAME"),
-    api_key: getEnvValue("CLOUDINARY_API_KEY"),
-    api_secret: getEnvValue("CLOUDINARY_API_SECRET"),
-    folder: getEnvValue("CLOUDINARY_FOLDER", "shop_dev"),
+  cloud: {
+    minio: {
+      endPoint: getEnvValue("CLOUD_MINIO_ENDPOINT", "localhost"),
+      port: _.toNumber(getEnvValue("CLOUD_MINIO_PORT", "9000")),
+      accessKey: getEnvValue("CLOUD_MINIO_ACCESSKEY", "MINIO_ACCESS_KEY"),
+      secretKey: getEnvValue("CLOUD_MINIO_SECRETKEY", "MINIO_SECRET_KEY"),
+      bucketName: getEnvValue("CLOUD_MINIO_BUCKETNAME", "shopdev"),
+    },
+    cloudinary: {
+      cloud_name: getEnvValue("CLOUD_CLOUDINARY_CLOUD_NAME"),
+      api_key: getEnvValue("CLOUD_CLOUDINARY_API_KEY"),
+      api_secret: getEnvValue("CLOUD_CLOUDINARY_API_SECRET"),
+      folder: getEnvValue("CLOUD_CLOUDINARY_FOLDER", "shop_dev"),
+    },
+    s3: {
+      accessKeyId: getEnvValue("CLOUD_S3_ACCESSKEYID"),
+      secretAccessKey: getEnvValue("CLOUD_S3_SECRETACCESSKEY"),
+      region: getEnvValue("CLOUD_S3_REGION"),
+      bucketName: getEnvValue("CLOUD_S3_BUCKETNAME"),
+    },
   },
 };
 export default env;

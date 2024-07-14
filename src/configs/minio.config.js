@@ -1,13 +1,14 @@
 import * as Minio from "minio";
-import env from "../configs/env.config.js";
+import env from "./env.config.js";
 
+const { endPoint, port, accessKey, secretKey, bucketName } = env.cloud.minio;
 const minioClient = new Minio.Client({
-  endPoint: env.db.minio.endPoint,
-  port: env.db.minio.port,
+  endPoint: endPoint,
+  port: port,
   // region: env.db.aws.region,
   useSSL: false,
-  accessKey: env.db.minio.accessKey,
-  secretKey: env.db.minio.secretKey,
+  accessKey: accessKey,
+  secretKey: secretKey,
   // Adding CORS configuration
   corsRule: [
     {
@@ -19,8 +20,6 @@ const minioClient = new Minio.Client({
     },
   ],
 });
-
-const bucketName = env.db.minio.bucketName;
 
 async function initializeMinio() {
   try {

@@ -1,9 +1,9 @@
-import MinIO from "../database/minio.cloud.js";
+import MinIO from "../configs/minio.config.js";
 import env from "../configs/env.config.js";
 import createHttpError from "http-errors";
 import { convertToSlug } from "../utils/index.js";
 
-const bucketName = env.db.minio.bucketName;
+const bucketName = env.cloud.minio.bucketName;
 const MinioService = {
   uploadFile: async function (file) {
     const fileName = `${Date.now()}_${convertToSlug(file.originalname)}`;

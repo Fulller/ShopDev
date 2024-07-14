@@ -5,7 +5,8 @@ import _ from "lodash";
 import createHttpError from "http-errors";
 import env from "../configs/env.config.js";
 
-const folder = env.cloudinary.folder;
+const folder = env.cloud.cloudinary.folder;
+cloudinary.config(env.cloud.cloudinary);
 
 const CloudinaryService = {
   uploadImage: async function (imageFile) {

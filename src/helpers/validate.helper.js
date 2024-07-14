@@ -74,7 +74,7 @@ const CommentValidate = {
     commentId: Joi.string().pattern(new RegExp("^[0-9a-fA-F]{24}$")).required(),
   }),
 };
-const FileValidate = {
+const UploadValidate = {
   singleFile: Joi.any().required().messages({
     "any.required": "There must be a file",
   }),
@@ -90,5 +90,5 @@ export {
   ProductValidate,
   DiscountValidate,
   CommentValidate,
-  FileValidate,
+  UploadValidate,
 };
