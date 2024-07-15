@@ -5,7 +5,7 @@ import { keepAlive } from "./src/helpers/scheduler.helper.js";
 const PORT = env.app.port;
 const isAlwaysLive = env.app.alwaysLive;
 
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, "0.0.0.0", () => {
   console.log(`APP RUNNING ON PORT ::  ${PORT}`);
   keepAlive(isAlwaysLive);
 });
