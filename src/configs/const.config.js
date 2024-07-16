@@ -46,7 +46,17 @@ const NOTI_TYPES = {
   PROMOTION_001: "PROMOTION-001",
   SHOP_001: "SHOP-001",
 };
-
+const USER_STATUS = {
+  PENDING: "peding",
+  ACTIVE: "active",
+  BLOCK: "block",
+};
+const ROLE_NAMES = { USER: "user", SHOP: "shop", ADMIN: "admin" };
+const ROLE_STATUS = {
+  PENDING: "peding",
+  ACTIVE: "active",
+  BLOCK: "block",
+};
 export {
   RoleShop,
   HEADER,
@@ -56,4 +66,7 @@ export {
   CART_STATES,
   ORDER_STATUS,
   NOTI_TYPES,
+  USER_STATUS,
+  ROLE_NAMES,
+  ROLE_STATUS,
 };

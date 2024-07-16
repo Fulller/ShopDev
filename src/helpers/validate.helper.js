@@ -5,6 +5,12 @@ import {
   DISCOUNT_APPLIES_TO,
 } from "../configs/const.config.js";
 
+const APIKeyValidate = {
+  add: Joi.object({
+    key: Joi.string().email().required(),
+    permissions: Joi.array().items(Joi.string()).required(),
+  }),
+};
 const ShopValidate = {
   signUp: Joi.object({
     email: Joi.string().email().required(),
@@ -91,4 +97,5 @@ export {
   DiscountValidate,
   CommentValidate,
   UploadValidate,
+  APIKeyValidate,
 };
