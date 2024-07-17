@@ -4,8 +4,10 @@ import helmet from "helmet";
 import compression from "compression";
 import router from "./routes/index.js";
 import MongoDB from "./database/mongodb.db.js";
+import { initAccessControl } from "./configs/accesscontrol.config.js";
 
 MongoDB.getInstance();
+initAccessControl();
 
 const app = express();
 app.use(morgan("dev"));

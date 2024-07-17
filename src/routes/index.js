@@ -2,7 +2,7 @@ import {
   handleError,
   responseFlying,
   checkAPIKey,
-  checkPermission,
+  checkPermissionAPIKey,
   notFound,
 } from "../middlewares/index.js";
 import { Router } from "express";
@@ -16,7 +16,7 @@ import InventoryRouter from "./inventory.route.js";
 import CommentRouter from "./comment.route.js";
 import NotificationRouter from "./notification.route.js";
 import UploadRouter from "./upload.route.js";
-
+import RBACRouter from "./rbac.route.js";
 import { PERMISSION } from "../configs/const.config.js";
 const router = Router();
 
@@ -26,7 +26,7 @@ router.get("/ping", (req, res) => res.fly({ status: 200, message: "Pong" }));
 
 router.use("/api", router);
 router.use(checkAPIKey);
-router.use(checkPermission(PERMISSION.ZERO));
+router.use(checkPermissionAPIKey(PERMISSION.ZERO));
 router.use("/shop", ShopRouter);
 router.use("/product", ProductRouter);
 router.use("/discount", DiscountRouter);
@@ -36,6 +36,7 @@ router.use("/inventory", InventoryRouter);
 router.use("/comment", CommentRouter);
 router.use("/notification", NotificationRouter);
 router.use("/upload", UploadRouter);
+router.use("/rbac", RBACRouter);
 
 router.use(notFound);
 router.use(handleError);

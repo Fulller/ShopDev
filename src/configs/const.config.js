@@ -57,6 +57,16 @@ const ROLE_STATUS = {
   ACTIVE: "active",
   BLOCK: "block",
 };
+const ROLE_POSSESSIONS = {
+  ANY: "any",
+  OWN: "own",
+};
+const ROLE_ACTIONS = {
+  CREATE: "create",
+  READ: "read",
+  UPDATE: "update",
+  DELETE: "delete",
+};
 export {
   RoleShop,
   HEADER,
@@ -69,4 +79,6 @@ export {
   USER_STATUS,
   ROLE_NAMES,
   ROLE_STATUS,
+  ROLE_POSSESSIONS,
+  ROLE_ACTIONS,
 };

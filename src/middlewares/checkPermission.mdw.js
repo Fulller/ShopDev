@@ -1,18 +1,24 @@
-import _ from "lodash";
-function checkPermission(permission) {
-  return (req, res, next) => {
+import { getAccessControl } from "../configs/accesscontrol.config.js";
+
+function checkPermission({ action, resource, possession }) {
+  return async function (req, res, next) {
     try {
-      const permissions = _.get(req, "apiKey.permissions", []);
-      if (_.isEmpty(permissions)) {
-        throw createHttpError(403, "Permission denied code-1");
+      //   const userRole = req.user.role;
+      const userRole = req.query.role;
+      const permission = (await getAccessControl()).permission({
+        role: userRole,
+        action: action,
+        resource: resource,
+        possession: possession,
+      });
+
+      if (permission.granted) {
+        next();
+      } else {
+        return res.fly({ status: 403, message: "Forbidden" });
       }
-      const validPermission = _.includes(permissions, permission);
-      if (!validPermission) {
-        throw createHttpError(403, "Permission denied code-2");
-      }
-      next();
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      next(error);
     }
   };
 }

@@ -3,8 +3,14 @@ import {
   HEADER,
   DISCOUNT_TYPES,
   DISCOUNT_APPLIES_TO,
+  ROLE_STATUS,
+  ROLE_ACTIONS,
+  ROLE_POSSESSIONS,
 } from "../configs/const.config.js";
 
+const Joi_ObjectId = Joi.string()
+  .pattern(new RegExp("^[0-9a-fA-F]{24}$"))
+  .required();
 const APIKeyValidate = {
   add: Joi.object({
     key: Joi.string().email().required(),
@@ -68,7 +74,7 @@ const DiscountValidate = {
 };
 const CommentValidate = {
   addComment: Joi.object({
-    productId: Joi.string().pattern(new RegExp("^[0-9a-fA-F]{24}$")).required(),
+    productId: Joi_ObjectId,
     content: Joi.string().required(),
     userId: Joi.number().required(),
     parentId: Joi.string()
@@ -76,8 +82,8 @@ const CommentValidate = {
       .allow(null, ""),
   }),
   deleteComment: Joi.object({
-    productId: Joi.string().pattern(new RegExp("^[0-9a-fA-F]{24}$")).required(),
-    commentId: Joi.string().pattern(new RegExp("^[0-9a-fA-F]{24}$")).required(),
+    productId: Joi_ObjectId,
+    commentId: Joi_ObjectId,
   }),
 };
 const UploadValidate = {
@@ -91,6 +97,42 @@ const UploadValidate = {
     fileUrl: Joi.string().uri().required(),
   }),
 };
+
+const RBACValidate = {
+  newRole: Joi.object({
+    rol_name: Joi.string().required(),
+    rol_slug: Joi.string().required(),
+    rol_status: Joi.string()
+      .valid(...Object.values(ROLE_STATUS))
+      .required(),
+    rol_grants: Joi.array().items({
+      resource: Joi_ObjectId,
+      action: Joi.string()
+        .valid(...Object.values(ROLE_ACTIONS))
+        .required(),
+      possession: Joi.string()
+        .valid(...Object.values(ROLE_POSSESSIONS))
+        .required(),
+      attribute: Joi.string(),
+    }),
+  }),
+  newResource: Joi.object({
+    src_name: Joi.string().required(),
+    src_slug: Joi.string().required(),
+    src_description: Joi.string(),
+  }),
+  addGrantToRole: Joi.object({
+    role_id: Joi_ObjectId,
+    resource: Joi_ObjectId,
+    action: Joi.string()
+      .valid(...Object.values(ROLE_ACTIONS))
+      .required(),
+    possession: Joi.string()
+      .valid(...Object.values(ROLE_POSSESSIONS))
+      .required(),
+    attribute: Joi.string(),
+  }),
+};
 export {
   ShopValidate,
   ProductValidate,
@@ -98,4 +140,5 @@ export {
   CommentValidate,
   UploadValidate,
   APIKeyValidate,
+  RBACValidate,
 };

@@ -1,5 +1,10 @@
 import { Schema, SchemaTypes, model } from "mongoose";
-import { ROLE_NAMES, ROLE_STATUS } from "../configs/const.config.js";
+import {
+  ROLE_NAMES,
+  ROLE_STATUS,
+  ROLE_POSSESSIONS,
+  ROLE_ACTIONS,
+} from "../configs/const.config.js";
 const DOCUMENT_NAME = "Role";
 const COLLECTION_NAME = "Roles";
 
@@ -8,10 +13,12 @@ const roleSchema = new Schema(
     rol_name: {
       type: SchemaTypes.String,
       default: ROLE_NAMES.USER,
+      unique: true,
       enum: Object.values(ROLE_NAMES),
     },
     rol_slug: {
       type: SchemaTypes.String,
+      unique: true,
       require: true,
     },
     rol_status: {
@@ -23,15 +30,24 @@ const roleSchema = new Schema(
       type: SchemaTypes.String,
       default: "",
     },
-    rol_grant: [
+    rol_grants: [
       {
         resource: {
           type: SchemaTypes.ObjectId,
           ref: "Resource",
           require: true,
         },
-        actions: [{ type: SchemaTypes.String, require: true }],
-        attributes: { type: SchemaTypes.String, default: "*" },
+        action: {
+          type: SchemaTypes.String,
+          require: true,
+          enum: Object.values(ROLE_ACTIONS),
+        },
+        possession: {
+          type: SchemaTypes.String,
+          require: true,
+          enum: Object.values(ROLE_POSSESSIONS),
+        },
+        attribute: { type: SchemaTypes.String, default: "*" },
       },
     ],
   },

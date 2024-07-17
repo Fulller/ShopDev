@@ -12,10 +12,12 @@ const userSchema = new Schema(
     },
     usr_slug: {
       type: SchemaTypes.String,
+      unique: true,
       require: true,
     },
     usr_name: {
       type: SchemaTypes.String,
+      unique: true,
       default: "",
     },
     usr_password: {
