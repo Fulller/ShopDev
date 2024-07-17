@@ -30,5 +30,25 @@ const RRACController = {
       metadata: await RBACService.listGrant(),
     });
   },
+  async removeGrantFromRole(req, res) {
+    return res.fly({
+      status: 200,
+      message: "Remove grant from role successfully",
+      metadata: await RBACService.removeGrantFromRole(req.params),
+    });
+  },
+  async updateGrantInRole(req, res) {
+    const { role_id, grant_id } = req.params;
+    const updateData = req.body;
+    return res.fly({
+      status: 200,
+      message: "Update grant from role successfully",
+      metadata: await RBACService.updateGrantInRole({
+        role_id,
+        grant_id,
+        updateData,
+      }),
+    });
+  },
 };
 export default RRACController;

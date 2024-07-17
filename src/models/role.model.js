@@ -8,6 +8,28 @@ import {
 const DOCUMENT_NAME = "Role";
 const COLLECTION_NAME = "Roles";
 
+const grantSchema = new Schema(
+  {
+    resource: {
+      type: SchemaTypes.ObjectId,
+      ref: "Resource",
+      require: true,
+    },
+    action: {
+      type: SchemaTypes.String,
+      require: true,
+      enum: Object.values(ROLE_ACTIONS),
+    },
+    possession: {
+      type: SchemaTypes.String,
+      require: true,
+      enum: Object.values(ROLE_POSSESSIONS),
+    },
+    attribute: { type: SchemaTypes.String, default: "*" },
+  },
+  { _id: true }
+);
+
 const roleSchema = new Schema(
   {
     rol_name: {
@@ -30,26 +52,7 @@ const roleSchema = new Schema(
       type: SchemaTypes.String,
       default: "",
     },
-    rol_grants: [
-      {
-        resource: {
-          type: SchemaTypes.ObjectId,
-          ref: "Resource",
-          require: true,
-        },
-        action: {
-          type: SchemaTypes.String,
-          require: true,
-          enum: Object.values(ROLE_ACTIONS),
-        },
-        possession: {
-          type: SchemaTypes.String,
-          require: true,
-          enum: Object.values(ROLE_POSSESSIONS),
-        },
-        attribute: { type: SchemaTypes.String, default: "*" },
-      },
-    ],
+    rol_grants: [grantSchema],
   },
   { timestamps: true, collection: COLLECTION_NAME }
 );

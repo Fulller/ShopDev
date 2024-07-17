@@ -24,6 +24,16 @@ RBACRouter.post(
   validate(RBACValidate.addGrantToRole),
   controller(RBACController.addGrantToRole)
 );
+RBACRouter.delete(
+  "/role/:role_id/grant/:grant_id",
+  validate(RBACValidate.removeGrantFromRole, "params"),
+  controller(RBACController.removeGrantFromRole)
+);
+RBACRouter.patch(
+  "/role/:role_id/grant/:grant_id",
+  validate(RBACValidate.updateGrantInRole, ["params", "body"]),
+  controller(RBACController.updateGrantInRole)
+);
 RBACRouter.post(
   "/resource",
   validate(RBACValidate.newResource),

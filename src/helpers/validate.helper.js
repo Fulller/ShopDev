@@ -132,6 +132,18 @@ const RBACValidate = {
       .required(),
     attribute: Joi.string(),
   }),
+  removeGrantFromRole: Joi.object({
+    role_id: Joi_ObjectId,
+    grant_id: Joi_ObjectId,
+  }),
+  updateGrantInRole: Joi.object({
+    role_id: Joi_ObjectId,
+    grant_id: Joi_ObjectId,
+    resource: Joi_ObjectId,
+    action: Joi.string().valid(...Object.values(ROLE_ACTIONS)),
+    possession: Joi.string().valid(...Object.values(ROLE_POSSESSIONS)),
+    attribute: Joi.string(),
+  }),
 };
 export {
   ShopValidate,

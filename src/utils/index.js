@@ -6,6 +6,7 @@ import updateNested from "./updateNested.util.js";
 import toObjectId from "./toObjectId.util.js";
 import convertToSlug from "./convertToSlug.util.js";
 import statusObj from "./status/index.js";
+import convertToListGrant from "./convertToListGrant.util.js";
 
 export {
   pickAccountData,
@@ -16,4 +17,5 @@ export {
   toObjectId,
   convertToSlug,
   statusObj,
+  convertToListGrant,
 };
