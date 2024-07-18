@@ -24,4 +24,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm ci
+      - run: docker start minio-ec2 mongodb-ec2
       - run: pm2 restart shopdev-backend

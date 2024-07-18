@@ -1,5 +1,4 @@
 import RBACService from "../services/rbac.service.js";
-import RedisService from "../services/redis.pubsub.service.js";
 
 const RRACController = {
   async newRole(req, res) {
