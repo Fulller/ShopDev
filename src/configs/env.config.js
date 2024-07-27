@@ -59,10 +59,7 @@ const env = {
       accessKeyId: getEnvValue("CLOUD_S3_ACCESSKEYID"),
       secretAccessKey: getEnvValue("CLOUD_S3_SECRETACCESSKEY"),
       region: getEnvValue("CLOUD_S3_REGION", "ap-southeast-1"),
-      bucketName: getEnvValue(
-        "CLOUD_S3_BUCKETNAME",
-        "prokenpromiseboy-bucket-shopdev"
-      ),
+      bucketName: getEnvValue("CLOUD_S3_BUCKETNAME"),
     },
     ses: {
       region: getEnvValue("CLOUD_SES_REGION", "ap-southeast-1"),

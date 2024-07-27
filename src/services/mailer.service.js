@@ -1,4 +1,4 @@
-import transporter from "../configs/mailer.config.js";
+import transporter from "../configs/aws.ses.config.js";
 
 const MailerService = {
   async sendMail(to, subject, text, html) {
