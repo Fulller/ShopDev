@@ -1,4 +1,7 @@
-function handleError(err, req, res, next) {
+import logger from "../logger/index.js";
+
+function handleError(err, req, res) {
+  logger.error(err.message, { req });
   return res.fly({
     status: err.status || 500,
     message: err.message,

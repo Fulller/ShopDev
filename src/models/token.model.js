@@ -17,7 +17,7 @@ const tokenSchema = new Schema(
     createdAt: {
       type: SchemaTypes.Date,
       default: Date.now,
-      expires: env.jwt.refresh_ex,
+      expires: env.auth.jwt.refresh_ex,
     },
   },
   { timestamps: true, collection: COLLECTION_NAME }

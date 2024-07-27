@@ -5,3 +5,4 @@ dist
 dockerfile
 *.dockerignore
 doc
+src/logs

@@ -17,6 +17,8 @@ import CommentRouter from "./comment.route.js";
 import NotificationRouter from "./notification.route.js";
 import UploadRouter from "./upload.route.js";
 import RBACRouter from "./rbac.route.js";
+import MailerRouter from "./mailer.route.js";
+
 import { PERMISSION } from "../configs/const.config.js";
 const router = Router();
 
@@ -37,6 +39,8 @@ router.use("/comment", CommentRouter);
 router.use("/notification", NotificationRouter);
 router.use("/upload", UploadRouter);
 router.use("/rbac", RBACRouter);
+router.use("/rbac", RBACRouter);
+router.use("/mailer", MailerRouter);
 
 router.use(notFound);
 router.use(handleError);

@@ -5,10 +5,13 @@ import { Token } from "../models/index.js";
 import { pickAccountData } from "../utils/index.js";
 import _ from "lodash";
 
-const ACCESS_SECRECT_KEY = env.jwt.access_serect_key;
-const REFRESH_SECRECT_KEY = env.jwt.refresh_serect_key;
-const ACCESS_EX = env.jwt.access_ex;
-const REFRESH_EX = env.jwt.refresh_ex;
+const {
+  access_serect_key = ACCESS_SECRECT_KEY,
+  refresh_serect_key = REFRESH_SECRECT_KEY,
+  access_ex = ACCESS_EX,
+  refresh_ex = REFRESH_EX,
+} = env.auth.jwt;
+
 const JWTService = {
   access: {
     sign: (payload) => {

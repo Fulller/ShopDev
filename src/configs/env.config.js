@@ -17,6 +17,7 @@ const env = {
   },
   db: {
     mongodb: getEnvValue("DB_MONGODB", "mongodb://localhost:27017/ShopDev"),
+    redis: getEnvValue("DB_REDIS", "redis://@127.0.0.1:6379"),
   },
   auth: {
     google: {
@@ -30,12 +31,15 @@ const env = {
       ),
     },
     clientUrl: getEnvValue("AUTH_CLIENTURL", "http://localhost:3000"),
-  },
-  jwt: {
-    access_serect_key: getEnvValue("JWT_ACCESS_SECRECT_KEY", "ACCESS"),
-    refresh_serect_key: getEnvValue("JWT_REFRESH_SECRECT_KEY", "REFRESH"),
-    access_ex: _.toNumber(getEnvValue("JWT_ACCESS_EX", "3600")),
-    refresh_ex: _.toNumber(getEnvValue("JWT_REFRESH_EX", "7200")),
+    jwt: {
+      access_serect_key: getEnvValue("AUTH_JWT_ACCESS_SECRECT_KEY", "ACCESS"),
+      refresh_serect_key: getEnvValue(
+        "AUTH_JWT_REFRESH_SECRECT_KEY",
+        "REFRESH"
+      ),
+      access_ex: _.toNumber(getEnvValue("AUTH_JWT_ACCESS_EX", "3600")),
+      refresh_ex: _.toNumber(getEnvValue("AUTH_JWT_REFRESH_EX", "7200")),
+    },
   },
   cloud: {
     minio: {
@@ -52,16 +56,32 @@ const env = {
       folder: getEnvValue("CLOUD_CLOUDINARY_FOLDER", "shop_dev"),
     },
     s3: {
-      accessKeyId: getEnvValue("CLOUD_S3_ACCESSKEYID", "AKIA47CRVW4TDUQC4NUJ"),
-      secretAccessKey: getEnvValue(
-        "CLOUD_S3_SECRETACCESSKEY",
-        "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"
-      ),
+      accessKeyId: getEnvValue("CLOUD_S3_ACCESSKEYID"),
+      secretAccessKey: getEnvValue("CLOUD_S3_SECRETACCESSKEY"),
       region: getEnvValue("CLOUD_S3_REGION", "ap-southeast-1"),
       bucketName: getEnvValue(
         "CLOUD_S3_BUCKETNAME",
         "prokenpromiseboy-bucket-shopdev"
       ),
+    },
+    ses: {
+      region: getEnvValue("CLOUD_SES_REGION", "ap-southeast-1"),
+      credentials: {
+        accessKeyId: getEnvValue("CLOUD_SES_ACCESSKEYID"),
+        secretAccessKey: getEnvValue("CLOUD_SES_SECRETACCESSKEY"),
+      },
+    },
+    mailer: {
+      host: getEnvValue("CLOUD_EMAIL_HOST"),
+      port: getEnvValue("CLOUD_EMAIL_PORT"),
+      secure: getEnvValue("CLOUD_EMAIL_SECURE", "false") == "true",
+      auth:
+        getEnvValue("CLOUD_EMAIL_USER") && getEnvValue("CLOUD_EMAIL_PASSWORD")
+          ? {
+              user: getEnvValue("CLOUD_EMAIL_USER"),
+              pass: getEnvValue("CLOUD_EMAIL_PASSWORD"),
+            }
+          : null,
     },
   },
 };

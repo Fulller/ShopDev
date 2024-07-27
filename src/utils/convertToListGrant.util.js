@@ -6,13 +6,13 @@ function convertToListGrant(roles) {
     (grants, { rol_name, rol_grants }) => {
       return _.concat(
         grants,
-        _.map(rol_grants, (grant) =>
-          _.chain(grant)
+        _.map(rol_grants, (grant) => {
+          return _.chain(grant)
             .set("role", rol_name)
-            .set("resource", grant.resource.src_name)
+            .set("resource", _.get(grant, "resource.src_name"))
             .omit(["_id"])
-            .value()
-        )
+            .value();
+        })
       );
     },
     []

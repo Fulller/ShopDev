@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validate, controller } from "../middlewares/index.js";
+import { validate, controller, cache } from "../middlewares/index.js";
 import { RBACValidate } from "../helpers/validate.helper.js";
 import RBACController from "../controllers/rbac.controller.js";
 import { checkPermission } from "../middlewares/index.js";
@@ -17,6 +17,7 @@ RBACRouter.get(
     action: "read",
     possession: "any",
   }),
+  cache({ status: 200, message: "GET LIST GRANT FROM CACHE REDIS" }),
   controller(RBACController.listGrant)
 );
 RBACRouter.post(

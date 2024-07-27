@@ -4,10 +4,12 @@ import helmet from "helmet";
 import compression from "compression";
 import router from "./routes/index.js";
 import MongoDB from "./database/mongodb.db.js";
+import { initRedis } from "./database/redis.db.js";
 import { initAccessControl } from "./configs/accesscontrol.config.js";
 
 MongoDB.getInstance();
-initAccessControl();
+initAccessControl().catch(console.log);
+await initRedis();
 
 const app = express();
 app.use(morgan("dev"));

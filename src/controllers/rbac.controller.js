@@ -1,4 +1,5 @@
 import RBACService from "../services/rbac.service.js";
+import { redisClient } from "../database/redis.db.js";
 
 const RRACController = {
   async newRole(req, res) {
@@ -23,10 +24,16 @@ const RRACController = {
     });
   },
   async listGrant(req, res) {
+    const result = await RBACService.listGrant();
+    const cacheKey = `cache:${req.originalUrl}`;
+    redisClient.set(cacheKey, JSON.stringify(result), {
+      EX: 60,
+      NX: true,
+    });
     return res.fly({
       status: 200,
       message: "Get grant list successfully",
-      metadata: await RBACService.listGrant(),
+      metadata: result,
     });
   },
   async removeGrantFromRole(req, res) {
