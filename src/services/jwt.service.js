@@ -6,10 +6,10 @@ import { pickAccountData } from "../utils/index.js";
 import _ from "lodash";
 
 const {
-  access_serect_key = ACCESS_SECRECT_KEY,
-  refresh_serect_key = REFRESH_SECRECT_KEY,
-  access_ex = ACCESS_EX,
-  refresh_ex = REFRESH_EX,
+  access_serect_key: ACCESS_SECRECT_KEY,
+  refresh_serect_key: REFRESH_SECRECT_KEY,
+  access_ex: ACCESS_EX,
+  refresh_ex: REFRESH_EX,
 } = env.auth.jwt;
 
 const JWTService = {
