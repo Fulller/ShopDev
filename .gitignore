@@ -1,10 +1,7 @@
 node_modules
 .env
-<<<<<<< HEAD
-=======
 *.env
 product.env
->>>>>>> b69207e (Initial commit)
 .vscode
 dist
 dockerfile
