@@ -13,7 +13,11 @@ const Joi_ObjectId = Joi.string()
   .required();
 const APIKeyValidate = {
   add: Joi.object({
+<<<<<<< HEAD
     key: Joi.string().email().required(),
+=======
+    key: Joi.string().required(),
+>>>>>>> b69207e (Initial commit)
     permissions: Joi.array().items(Joi.string()).required(),
   }),
 };
