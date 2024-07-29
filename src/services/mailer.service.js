@@ -1,4 +1,5 @@
-import transporter from "../configs/aws.ses.config.js";
+// import transporter from "../configs/aws.ses.config.js";
+import transporter from "../configs/gmail.config.js";
 
 const MailerService = {
   async sendMail(to, subject, text, html) {

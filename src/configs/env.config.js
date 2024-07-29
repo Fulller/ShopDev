@@ -69,14 +69,14 @@ const env = {
       },
     },
     mailer: {
-      host: getEnvValue("CLOUD_EMAIL_HOST"),
-      port: getEnvValue("CLOUD_EMAIL_PORT"),
-      secure: getEnvValue("CLOUD_EMAIL_SECURE", "false") == "true",
+      host: getEnvValue("CLOUD_MAILER_HOST"),
+      port: getEnvValue("CLOUD_MAILER_PORT"),
+      secure: getEnvValue("CLOUD_MAILER_SECURE", "false") == "true",
       auth:
-        getEnvValue("CLOUD_EMAIL_USER") && getEnvValue("CLOUD_EMAIL_PASSWORD")
+        getEnvValue("CLOUD_MAILER_USER") && getEnvValue("CLOUD_MAILER_PASSWORD")
           ? {
-              user: getEnvValue("CLOUD_EMAIL_USER"),
-              pass: getEnvValue("CLOUD_EMAIL_PASSWORD"),
+              user: getEnvValue("CLOUD_MAILER_USER"),
+              pass: getEnvValue("CLOUD_MAILER_PASSWORD"),
             }
           : null,
     },
