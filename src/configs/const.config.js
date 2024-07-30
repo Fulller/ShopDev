@@ -67,6 +67,16 @@ const ROLE_ACTIONS = {
   UPDATE: "update",
   DELETE: "delete",
 };
+const OTP_STATUS = {
+  PENDING: "peding",
+  ACTIVE: "active",
+  BLOCK: "block",
+};
+const TEMPLATE_STATUS = {
+  PENDING: "peding",
+  ACTIVE: "active",
+  BLOCK: "block",
+};
 export {
   RoleShop,
   HEADER,
@@ -81,4 +91,6 @@ export {
   ROLE_STATUS,
   ROLE_POSSESSIONS,
   ROLE_ACTIONS,
+  OTP_STATUS,
+  TEMPLATE_STATUS,
 };

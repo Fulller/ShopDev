@@ -11,6 +11,9 @@ import {
 const Joi_ObjectId = Joi.string()
   .pattern(new RegExp("^[0-9a-fA-F]{24}$"))
   .required();
+const Joi_HTML = Joi.string()
+  .pattern(/<\/?[a-z][\s\S]*>/i, "HTML tags")
+  .required();
 const APIKeyValidate = {
   add: Joi.object({
     key: Joi.string().required(),
@@ -145,6 +148,16 @@ const RBACValidate = {
     attribute: Joi.string(),
   }),
 };
+const TemplateValidate = {
+  add: Joi.object({
+    tem_id: Joi.number().required(),
+    tem_name: Joi.string().required(),
+    tem_html: Joi_HTML,
+  }),
+};
+const UserValidate = {
+  signUp: Joi.object({ email: Joi.string().email().required() }),
+};
 export {
   ShopValidate,
   ProductValidate,
@@ -153,4 +166,6 @@ export {
   UploadValidate,
   APIKeyValidate,
   RBACValidate,
+  TemplateValidate,
+  UserValidate,
 };

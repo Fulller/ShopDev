@@ -1,21 +1,10 @@
-import pickAccountData from "./pickAccountData.util.js";
-import getSelectData from "./getSelectData.util.js";
-import getUnselectData from "./getUnselectData.util.js";
-import removeNullUndefined from "./removeNullUndefined.util.js";
-import updateNested from "./updateNested.util.js";
-import toObjectId from "./toObjectId.util.js";
-import convertToSlug from "./convertToSlug.util.js";
-import statusObj from "./status/index.js";
-import convertToListGrant from "./convertToListGrant.util.js";
-
-export {
-  pickAccountData,
-  getSelectData,
-  getUnselectData,
-  removeNullUndefined,
-  updateNested,
-  toObjectId,
-  convertToSlug,
-  statusObj,
-  convertToListGrant,
-};
+export { default as pickAccountData } from "./pickAccountData.util.js";
+export { default as getSelectData } from "./getSelectData.util.js";
+export { default as getUnselectData } from "./getUnselectData.util.js";
+export { default as removeNullUndefined } from "./removeNullUndefined.util.js";
+export { default as updateNested } from "./updateNested.util.js";
+export { default as toObjectId } from "./toObjectId.util.js";
+export { default as convertToSlug } from "./convertToSlug.util.js";
+export { default as statusObj } from "./status/index.js";
+export { default as convertToListGrant } from "./convertToListGrant.util.js";
+export { default as replaceHTMLTemplate } from "./replaceHTMLTemplate.util.js";

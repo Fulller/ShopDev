@@ -2,7 +2,7 @@ import Order from "../models/order.model.js";
 import CartRepo from "../models/repositories/cart.repo.js";
 import ProductRepo from "../models/repositories/product.repo.js";
 import DiscountService from "../services/discount.service.js";
-import RedisService from "./redis.service.js";
+import RedisService from "./redis.lock.service.js";
 import createHttpError from "http-errors";
 
 const CheckoutService = {
