@@ -8,7 +8,6 @@ const userSchema = new Schema(
   {
     usr_id: {
       type: SchemaTypes.Number,
-      require: true,
     },
     usr_slug: {
       type: SchemaTypes.String,
@@ -48,7 +47,7 @@ const userSchema = new Schema(
       type: SchemaTypes.Date,
       default: null,
     },
-    usr_role: { type: SchemaTypes.ObjectId, ref: "Role" },
+    usr_role: { type: SchemaTypes.ObjectId, ref: "Role", required: true },
     usr_status: {
       type: SchemaTypes.String,
       enum: Object.values(USER_STATUS),
@@ -57,4 +56,5 @@ const userSchema = new Schema(
   },
   { timestamps: true, collection: COLLECTION_NAME }
 );
+
 export default model(DOCUMENT_NAME, userSchema);

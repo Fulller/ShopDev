@@ -157,6 +157,10 @@ const TemplateValidate = {
 };
 const UserValidate = {
   signUp: Joi.object({ email: Joi.string().email().required() }),
+  verifySignUpOTP: Joi.object({
+    email: Joi.string().email().required(),
+    token: Joi.any().required(),
+  }),
 };
 export {
   ShopValidate,

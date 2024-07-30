@@ -10,5 +10,10 @@ UserRouter.post(
   validate(UserValidate.signUp),
   controller(UserController.signUp)
 );
+UserRouter.get(
+  "/verify-signup-otp",
+  validate(UserValidate.verifySignUpOTP, "query"),
+  controller(UserController.verifySignUpOTP)
+);
 
 export default UserRouter;
