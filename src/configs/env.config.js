@@ -14,6 +14,11 @@ const env = {
     serverUrl: getEnvValue("APP_SERVERURL", "http://localhost:8000"),
     alwaysLive: getEnvValue("APP_ALWAYSLIVE", 1),
     limitUpload: _.toNumber(getEnvValue("APP_LIMITUPLOAD", "100")), // MB
+    apiKey: getEnvValue("APP_API_KEY"),
+    admin: {
+      email: getEnvValue("APP_ADMIN_EMAIL"),
+      password: getEnvValue("APP_ADMIN_PASSWORD"),
+    },
   },
   db: {
     mongodb: getEnvValue("DB_MONGODB", "mongodb://localhost:27017/ShopDev"),

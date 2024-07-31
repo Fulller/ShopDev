@@ -16,6 +16,10 @@ const RBACService = {
     rol_description,
     rol_grants = [],
   }) {
+    const role = await Role.findOne({ rol_name });
+    if (role) {
+      return null;
+    }
     return await Role.create({
       rol_name,
       rol_slug,

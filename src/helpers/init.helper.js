@@ -1,5 +1,10 @@
 import { ROLE_NAMES } from "../configs/const.config.js";
 import RBACService from "../services/rbac.service.js";
+import APIKeyService from "../services/apikey.service.js";
+import UserService from "../services/user.service.js";
+import env from "../configs/env.config.js";
+import { PERMISSION } from "../configs/const.config.js";
+import _ from "lodash";
 
 async function initRole() {
   const roles = [
@@ -27,7 +32,33 @@ async function initRole() {
       return RBACService.newRole(role);
     })
   );
-  console.log({ rolesResult });
+  if (
+    _.chain(rolesResult)
+      .filter((roleResult) => roleResult)
+      .value().length
+  ) {
+    console.log(`Init :: Roles`);
+  }
+}
+async function initAPIKey() {
+  const apiKey = await APIKeyService.init({
+    key: env.app.apiKey,
+    permissions: [...Object.values(PERMISSION)],
+  });
+  if (apiKey) {
+    console.log(`Init :: APIKey`);
+  }
+}
+async function initAdmin() {
+  const admin = await UserService.initAdmin(env.app.admin);
+  if (admin) {
+    console.log(`Init :: Admin`);
+  }
+}
+async function initApp() {
+  await initRole().catch(console.log);
+  await initAPIKey().catch(console.log);
+  await initAdmin().catch(console.log);
 }
 
-await initRole();
+export default initApp;

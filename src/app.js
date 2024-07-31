@@ -6,10 +6,10 @@ import router from "./routes/index.js";
 import MongoDB from "./database/mongodb.db.js";
 import { initRedis } from "./database/redis.db.js";
 import { initAccessControl } from "./configs/accesscontrol.config.js";
+import initApp from "./helpers/init.helper.js";
 
-MongoDB.getInstance();
-initAccessControl().catch(console.log);
-await initRedis();
+await MongoDB.getInstance();
+await Promise.all([initAccessControl(), initRedis(), initApp()]);
 
 const app = express();
 app.use(morgan("dev"));

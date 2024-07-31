@@ -18,7 +18,7 @@ class MongoDB {
         console.log("Connection to MongoDB failed");
       });
   }
-  static getInstance() {
+  static async getInstance() {
     if (!MongoDB.instance) {
       this.instance = new MongoDB();
     }

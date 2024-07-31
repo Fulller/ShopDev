@@ -26,5 +26,12 @@ const UserService = {
     ]);
     return newUser;
   },
+  async initAdmin({ email, password }) {
+    const admin = await UserRepository.initAdmin({ email, password });
+    if (admin) {
+      return _.pick(admin, ["_id", "usr_name", "usr_email", "usr_role"]);
+    }
+    return null;
+  },
 };
 export default UserService;

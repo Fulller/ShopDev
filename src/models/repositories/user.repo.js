@@ -25,5 +25,25 @@ const UserRepository = {
       select: "_id rol_name",
     });
   },
+  async initAdmin({ email, password }) {
+    const admin = await User.findOne({ usr_email: email });
+    if (admin) {
+      return null;
+    }
+    const [usr_role, usr_password] = await Promise.all([
+      RoleReposiroty.findRoleIdByName(ROLE_NAMES.ADMIN),
+      bcrypt.hash(password, 10),
+    ]);
+    const newAdmin = await User.create({
+      usr_name: email,
+      usr_password,
+      usr_email: email,
+      usr_role,
+    });
+    return await newAdmin.populate({
+      path: "usr_role",
+      select: "_id rol_name",
+    });
+  },
 };
 export default UserRepository;
