@@ -1,6 +1,6 @@
 import logger from "../logger/index.js";
 
-function handleError(err, req, res) {
+function handleError(err, req, res, next) {
   logger.error(err.message, { req });
   return res.fly({
     status: err.status || 500,

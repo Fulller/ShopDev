@@ -41,7 +41,6 @@ router.use("/comment", CommentRouter);
 router.use("/notification", NotificationRouter);
 router.use("/upload", UploadRouter);
 router.use("/rbac", RBACRouter);
-router.use("/rbac", RBACRouter);
 router.use("/mailer", MailerRouter);
 router.use("/template", TemplateRouter);
 router.use("/user", UserRouter);

@@ -1,4 +1,6 @@
 import _ from "lodash";
+import createHttpError from "http-errors";
+
 function checkPermissionAPIKey(permission) {
   return (req, res, next) => {
     try {
