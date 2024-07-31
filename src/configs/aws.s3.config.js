@@ -15,18 +15,16 @@ const s3Client = new S3Client({
   },
 });
 
-async function initializeS3() {
+async function connectS3() {
   try {
     const headBucketCommand = new HeadBucketCommand({ Bucket: bucketName });
     await s3Client.send(headBucketCommand);
-    console.log("Bucket already exists:", bucketName);
   } catch (error) {
     if (error.name === "NotFound") {
       const createBucketCommand = new CreateBucketCommand({
         Bucket: bucketName,
       });
       await s3Client.send(createBucketCommand);
-      console.log("Bucket created successfully:", bucketName);
     } else {
       console.error("Error checking bucket existence:", error);
       throw error;
@@ -52,12 +50,11 @@ async function initializeS3() {
 
   try {
     await s3Client.send(putBucketPolicyCommand);
-    console.log("Bucket policy set successfully:", bucketName);
   } catch (error) {
     console.error("Error setting bucket policy:", error);
+    return;
   }
+  console.log("CONNECTED :: AWS :: S3");
 }
 
-initializeS3().catch(console.error);
-
-export default s3Client;
+export { connectS3, s3Client };

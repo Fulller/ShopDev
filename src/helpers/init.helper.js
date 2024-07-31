@@ -37,7 +37,7 @@ async function initRole() {
       .filter((roleResult) => roleResult)
       .value().length
   ) {
-    console.log(`Init :: Roles`);
+    console.log(`INIT :: ROLES`);
   }
 }
 async function initAPIKey() {
@@ -46,13 +46,13 @@ async function initAPIKey() {
     permissions: [...Object.values(PERMISSION)],
   });
   if (apiKey) {
-    console.log(`Init :: APIKey`);
+    console.log(`INIT :: API_KEY`);
   }
 }
 async function initAdmin() {
   const admin = await UserService.initAdmin(env.app.admin);
   if (admin) {
-    console.log(`Init :: Admin`);
+    console.log(`INIT :: ADMIN`);
   }
 }
 async function initApp() {

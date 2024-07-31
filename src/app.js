@@ -3,13 +3,16 @@ import morgan from "morgan";
 import helmet from "helmet";
 import compression from "compression";
 import router from "./routes/index.js";
-import MongoDB from "./database/mongodb.db.js";
-import { initRedis } from "./database/redis.db.js";
-import { initAccessControl } from "./configs/accesscontrol.config.js";
+import connectMongoDB from "./database/mongodb.db.js";
+import { connectRedis } from "./database/redis.db.js";
 import initApp from "./helpers/init.helper.js";
+import { initAccessControl } from "./configs/accesscontrol.config.js";
+import { connectS3 } from "./configs/aws.s3.config.js";
+import { configureCloudinary } from "./configs/cloudinary.config.js";
 
-await MongoDB.getInstance();
-await Promise.all([initAccessControl(), initRedis(), initApp()]);
+await Promise.all([connectMongoDB(), connectRedis()]);
+await initApp();
+await Promise.all([initAccessControl(), connectS3(), configureCloudinary()]);
 
 const app = express();
 app.use(morgan("dev"));

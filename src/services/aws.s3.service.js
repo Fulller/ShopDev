@@ -1,4 +1,4 @@
-import s3Client from "../configs/aws.s3.config.js";
+import { s3Client } from "../configs/aws.s3.config.js";
 import env from "../configs/env.config.js";
 import { convertToSlug } from "../utils/index.js";
 import { PutObjectCommand } from "@aws-sdk/client-s3";

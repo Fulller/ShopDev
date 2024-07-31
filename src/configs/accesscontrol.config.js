@@ -6,6 +6,7 @@ let ac;
 const initAccessControl = async () => {
   const listGrant = await RBACService.listGrant();
   ac = new AccessControl(listGrant);
+  console.log("INIT :: ACCESSCONTROL");
 };
 
 const updateAccessControlGrants = async () => {

@@ -1,4 +1,4 @@
-import { v2 as cloudinary } from "cloudinary";
+import { cloudinary } from "../configs/cloudinary.config.js";
 import { extractPublicId } from "cloudinary-build-url";
 import { convertToSlug } from "../utils/index.js";
 import _ from "lodash";
@@ -6,7 +6,6 @@ import createHttpError from "http-errors";
 import env from "../configs/env.config.js";
 
 const folder = env.cloud.cloudinary.folder;
-cloudinary.config(env.cloud.cloudinary);
 
 const CloudinaryService = {
   uploadImage: async function (imageFile) {

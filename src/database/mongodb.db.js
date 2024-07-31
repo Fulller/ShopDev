@@ -1,29 +1,14 @@
 import mongoose from "mongoose";
 import env from "../configs/env.config.js";
 
-const mongodbURl = env.db.mongodb;
+const connectMongoDB = async () => {
+  try {
+    await mongoose.connect(env.db.mongodb);
+    console.log("CONNECTED :: MONGODB");
+  } catch (error) {
+    console.error("CONNECT FAIL :: MONGODB", error);
+    process.exit(1); // Exit the process with failure
+  }
+};
 
-class MongoDB {
-  static instance;
-  constructor() {
-    this.connect();
-  }
-  connect() {
-    mongoose
-      .connect(mongodbURl)
-      .then(() => {
-        console.log("Connected to MongoDB successfully");
-      })
-      .catch(() => {
-        console.log("Connection to MongoDB failed");
-      });
-  }
-  static async getInstance() {
-    if (!MongoDB.instance) {
-      this.instance = new MongoDB();
-    }
-    return this.instance;
-  }
-}
-
-export default MongoDB;
+export default connectMongoDB;

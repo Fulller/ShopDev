@@ -1,4 +1,4 @@
-import MinIO from "../configs/minio.config.js";
+import { minioClient } from "../configs/minio.config.js";
 import env from "../configs/env.config.js";
 import createHttpError from "http-errors";
 import { convertToSlug } from "../utils/index.js";
@@ -14,9 +14,9 @@ const MinioService = {
       ? file.buffer
       : Buffer.from(file.buffer);
     try {
-      await MinIO.putObject(bucketName, fileName, fileData, metaData);
+      await minioClient.putObject(bucketName, fileName, fileData, metaData);
       const expiryTime = 7 * 24 * 60 * 60;
-      const fileUrl = await MinIO.presignedGetObject(
+      const fileUrl = await minioClient.presignedGetObject(
         bucketName,
         fileName,
         expiryTime
@@ -32,7 +32,7 @@ const MinioService = {
       const urlSplited = url.split("/");
       const fileName = urlSplited.pop();
       const bucketName = urlSplited.pop();
-      await MinIO.removeObject(bucketName, fileName);
+      await minioClient.removeObject(bucketName, fileName);
     } catch {
       throw createHttpError(400, "api-err-upload-02");
     }
