@@ -1,7 +1,7 @@
 import { redisClient } from "../database/redis.db.js";
 import _ from "lodash";
 
-function cache(fly = {}) {
+function cache(fly = { status: 200, message: "CACHE REDIS" }) {
   return async function (req, res, next) {
     const cacheKey = `cache:${req.originalUrl}`;
     try {

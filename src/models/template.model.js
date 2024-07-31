@@ -1,7 +1,7 @@
 import { Schema, SchemaTypes, model } from "mongoose";
 import { TEMPLATE_STATUS } from "../configs/const.config.js";
-const DOCUMENT_NAME = "template";
-const COLLECTION_NAME = "templates";
+const DOCUMENT_NAME = "Template";
+const COLLECTION_NAME = "Templates";
 
 const templateSchema = new Schema(
   {

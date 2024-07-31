@@ -24,7 +24,7 @@ const MailerService = {
     }
   },
   async sendMailVerifySignUp(email, verify_link) {
-    const template = await TemplateService.get({ tem_id: 2 });
+    const template = await TemplateService.get({ tem_id: 1 });
     if (!template) {
       throw createHttpError(404, "Template is not exist");
     }

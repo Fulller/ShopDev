@@ -25,12 +25,12 @@ import { PERMISSION } from "../configs/const.config.js";
 const router = Router();
 
 router.use(responseFlying);
-router.use("/api_key", APIKeyRouter);
-router.get("/ping", (req, res) => res.fly({ status: 200, message: "Pong" }));
 
+router.get("/ping", (req, res) => res.fly({ status: 200, message: "Pong" }));
 router.use("/api", router);
 router.use(checkAPIKey);
 router.use(checkPermissionAPIKey(PERMISSION.ZERO));
+router.use("/api-key", APIKeyRouter);
 router.use("/shop", ShopRouter);
 router.use("/product", ProductRouter);
 router.use("/discount", DiscountRouter);

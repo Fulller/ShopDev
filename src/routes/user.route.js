@@ -10,6 +10,11 @@ UserRouter.post(
   validate(UserValidate.signUp),
   controller(UserController.signUp)
 );
+UserRouter.post(
+  "/login",
+  validate(UserValidate.logIn),
+  controller(UserController.logIn)
+);
 UserRouter.get(
   "/verify-signup-otp",
   validate(UserValidate.verifySignUpOTP, "query"),

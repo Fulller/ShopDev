@@ -4,6 +4,8 @@ import MailerSevice from "./mailer.service.js";
 import OTPSevice from "./otp.service.js";
 import createHttpError from "http-errors";
 import env from "../configs/env.config.js";
+import { pickAccountData } from "../utils/index.js";
+import bcrypt from "bcrypt";
 import _ from "lodash";
 
 const UserService = {
@@ -18,20 +20,33 @@ const UserService = {
   },
   async verifySignUpOTP({ email, token }) {
     await OTPSevice.verify({ email, token });
-    const newUser = _.pick(await UserRepository.createDefaultWithEmail(email), [
-      "_id",
-      "usr_name",
-      "usr_email",
-      "usr_role",
-    ]);
+    const newUser = pickAccountData(
+      await UserRepository.createDefaultWithEmail(email)
+    );
     return newUser;
   },
   async initAdmin({ email, password }) {
     const admin = await UserRepository.initAdmin({ email, password });
     if (admin) {
-      return _.pick(admin, ["_id", "usr_name", "usr_email", "usr_role"]);
+      return pickAccountData(admin);
     }
     return null;
+  },
+  async logIn({ email, password }) {
+    const user = await User.findOne({ usr_email: email });
+    if (!user) {
+      throw createHttpError(404, "Email not found");
+    }
+    const isValidPassowrd = await bcrypt.compare(password, user.usr_password);
+    if (!isValidPassowrd) {
+      throw createHttpError(401, "Invalid password");
+    }
+    return pickAccountData(
+      await user.populate({
+        path: "usr_role",
+        select: "_id rol_name",
+      })
+    );
   },
 };
 export default UserService;

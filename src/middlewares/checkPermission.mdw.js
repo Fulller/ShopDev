@@ -1,21 +1,26 @@
 import { getAccessControl } from "../configs/accesscontrol.config.js";
+import createHttpError from "http-errors";
+import _ from "lodash";
 
 function checkPermission({ action, resource, possession }) {
   return async function (req, res, next) {
     try {
-      //   const userRole = req.user.role;
-      const userRole = req.query.role;
+      const userRole = _.get(req, "user.usr_role.rol_name");
+      console.log(req.user);
+      if (!userRole) {
+        throw createHttpError(403, "checkPermission no user");
+      }
+      console.log({ userRole });
       const permission = (await getAccessControl()).permission({
         role: userRole,
         action: action,
         resource: resource,
         possession: possession,
       });
-
       if (permission.granted) {
         next();
       } else {
-        return res.fly({ status: 403, message: "Forbidden" });
+        throw createHttpError(403, "Forbidden checkPermission");
       }
     } catch (error) {
       next(error);
