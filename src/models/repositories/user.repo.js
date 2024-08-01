@@ -39,6 +39,7 @@ const UserRepository = {
       usr_password,
       usr_email: email,
       usr_role,
+      usr_slug: email,
     });
     return await newAdmin.populate({
       path: "usr_role",

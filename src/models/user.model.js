@@ -8,15 +8,14 @@ const userSchema = new Schema(
   {
     usr_id: {
       type: SchemaTypes.Number,
+      unique: true,
     },
     usr_slug: {
       type: SchemaTypes.String,
-      unique: true,
       require: true,
     },
     usr_name: {
       type: SchemaTypes.String,
-      unique: true,
       default: "",
     },
     usr_password: {
