@@ -10,6 +10,7 @@ function getEnvValue(name, defaultValue = "") {
 }
 const env = {
   app: {
+    isDev: NODE_ENV == "DEV",
     port: getEnvValue("APP_PORT", 8000),
     sessionSecret: getEnvValue("APP_SESSTIONSECRET", "SECRET"),
     serverUrl: getEnvValue("APP_SERVERURL", "http://localhost:8000"),

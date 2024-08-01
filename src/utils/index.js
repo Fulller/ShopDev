@@ -8,3 +8,9 @@ export { default as convertToSlug } from "./convertToSlug.util.js";
 export { default as statusObj } from "./status/index.js";
 export { default as convertToListGrant } from "./convertToListGrant.util.js";
 export { default as replaceHTMLTemplate } from "./replaceHTMLTemplate.util.js";
+export { default as replaceString } from "./replaceString.util.js";
+export {
+  cloudinaryToServer,
+  s3ToServer,
+  serverToCloudinary,
+} from "./proxyURL.util.js";

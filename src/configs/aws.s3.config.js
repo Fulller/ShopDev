@@ -4,6 +4,9 @@ import {
   HeadBucketCommand,
   PutBucketPolicyCommand,
 } from "@aws-sdk/client-s3";
+import { createProxyMiddleware } from "http-proxy-middleware";
+import { STORAGE_PATH, PROXY_PATH } from "../configs/const.config.js";
+import { replaceString } from "../utils/index.js";
 import env from "./env.config.js";
 
 const { accessKeyId, region, secretAccessKey, bucketName } = env.cloud.s3;
@@ -56,5 +59,21 @@ async function connectS3() {
   }
   console.log("CONNECTED :: AWS :: S3");
 }
-
-export { connectS3, s3Client };
+async function configureProxyS3(app) {
+  const { bucketName, region } = env.cloud.s3;
+  const target = replaceString(PROXY_PATH.S3, {
+    bucketName,
+    region,
+  });
+  app.use(
+    STORAGE_PATH.S3,
+    createProxyMiddleware({
+      target,
+      changeOrigin: true,
+      pathRewrite: {
+        [`^${STORAGE_PATH.S3}`]: "",
+      },
+    })
+  );
+}
+export { connectS3, s3Client, configureProxyS3 };

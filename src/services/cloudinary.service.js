@@ -1,11 +1,17 @@
 import { cloudinary } from "../configs/cloudinary.config.js";
 import { extractPublicId } from "cloudinary-build-url";
-import { convertToSlug } from "../utils/index.js";
+import {
+  convertToSlug,
+  cloudinaryToServer,
+  serverToCloudinary,
+} from "../utils/index.js";
 import _ from "lodash";
 import createHttpError from "http-errors";
 import env from "../configs/env.config.js";
+import { STORAGE_PATH } from "../configs/const.config.js";
 
 const folder = env.cloud.cloudinary.folder;
+const { serverUrl } = env.app;
 
 const CloudinaryService = {
   uploadImage: async function (imageFile) {
@@ -16,7 +22,7 @@ const CloudinaryService = {
       }
       const originalFilename = imageFile.originalname;
       const publicId = convertToSlug(originalFilename.split(".")[0]);
-      return new Promise((resolve, reject) => {
+      const { secure_url } = await new Promise((resolve, reject) => {
         cloudinary.uploader
           .upload_stream(
             {
@@ -36,13 +42,18 @@ const CloudinaryService = {
           )
           .end(imageBuffer);
       });
+      return cloudinaryToServer({
+        serverUrl,
+        ogirinalURL: secure_url,
+        storagePath: STORAGE_PATH.CLOUDINARY,
+      });
     } catch (err) {
       throw createHttpError(err);
     }
   },
   deleteImage: async function (imageUrl) {
     try {
-      const publicId = extractPublicId(imageUrl);
+      const publicId = extractPublicId(serverToCloudinary(imageUrl));
       if (!publicId) {
         throw createHttpError(400, "Public ID is required");
       }
