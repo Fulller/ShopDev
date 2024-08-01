@@ -7,11 +7,10 @@ import { replaceHTMLTemplate } from "../utils/index.js";
 const MailerService = {
   async sendMail(to, subject, text, html) {
     const mailOptions = {
-      from: "brokenpromiseboy@gmail.com", // Sender address
-      to, // List of receivers
-      subject, // Subject line
-      text, // Plain text body
-      html, // HTML body
+      to,
+      subject,
+      text,
+      html,
     };
 
     try {
@@ -25,9 +24,6 @@ const MailerService = {
   },
   async sendMailVerifySignUp(email, verify_link) {
     const template = await TemplateService.get({ tem_id: 1 });
-    if (!template) {
-      throw createHttpError(404, "Template is not exist");
-    }
     const temHtml = replaceHTMLTemplate(template.tem_html, { verify_link });
     MailerService.sendMail(
       email,

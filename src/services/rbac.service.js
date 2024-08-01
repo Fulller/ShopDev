@@ -9,6 +9,9 @@ import createHttpError from "http-errors";
 import _ from "lodash";
 
 const RBACService = {
+  async findByName(src_name) {
+    return await Resource.findOne({ src_name });
+  },
   async newRole({
     rol_name,
     rol_slug,
@@ -29,7 +32,7 @@ const RBACService = {
     });
   },
   async newResource({ src_name, src_slug, src_description }) {
-    return Resource.create({ src_name, src_slug, src_description });
+    return await Resource.create({ src_name, src_slug, src_description });
   },
   async addGrantToRole({ role_id, resource, action, possession, attribute }) {
     const role = await Role.findById(role_id);

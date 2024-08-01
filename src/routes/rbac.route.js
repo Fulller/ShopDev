@@ -1,10 +1,16 @@
 import { Router } from "express";
-import { validate, controller, cache } from "../middlewares/index.js";
+import {
+  validate,
+  controller,
+  cache,
+  authenticate,
+} from "../middlewares/index.js";
 import { RBACValidate } from "../helpers/validate.helper.js";
 import RBACController from "../controllers/rbac.controller.js";
 import { checkPermission } from "../middlewares/index.js";
 const RBACRouter = Router();
 
+RBACRouter.use(authenticate);
 RBACRouter.post(
   "/role",
   validate(RBACValidate.newRole),

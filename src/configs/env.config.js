@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import _ from "lodash";
+
 dotenv.config();
 
 const NODE_ENV = _.get(process.env, "NODE_ENV", "DEV");
@@ -10,7 +11,7 @@ function getEnvValue(name, defaultValue = "") {
 const env = {
   app: {
     port: getEnvValue("APP_PORT", 8000),
-    sessionSecret: getEnvValue("APP_SESSTIONSECRET", "OurFormSECRET"),
+    sessionSecret: getEnvValue("APP_SESSTIONSECRET", "SECRET"),
     serverUrl: getEnvValue("APP_SERVERURL", "http://localhost:8000"),
     alwaysLive: getEnvValue("APP_ALWAYSLIVE", 1),
     limitUpload: _.toNumber(getEnvValue("APP_LIMITUPLOAD", "100")), // MB
