@@ -166,6 +166,89 @@ const UserValidate = {
     token: Joi.any().required(),
   }),
 };
+const SPUValidate = {
+  create: Joi.object({
+    spu_slug: Joi.string().required().messages({
+      "string.base": "Slug phải là một chuỗi ký tự",
+      "string.empty": "Slug không được để trống",
+      "any.required": "Slug là bắt buộc",
+    }),
+    spu_name: Joi.string().required().messages({
+      "string.base": "Tên phải là một chuỗi ký tự",
+      "string.empty": "Tên không được để trống",
+      "any.required": "Tên là bắt buộc",
+    }),
+    spu_description: Joi.string().required().messages({
+      "string.base": "Mô tả phải là một chuỗi ký tự",
+      "string.empty": "Mô tả không được để trống",
+      "any.required": "Mô tả là bắt buộc",
+    }),
+    spu_category: Joi.array()
+      .items(Joi.string().required())
+      .required()
+      .messages({
+        "array.base": "Danh mục phải là một mảng các chuỗi",
+        "array.empty": "Danh mục không được để trống",
+        "any.required": "Danh mục là bắt buộc",
+      }),
+    spu_brand: Joi.string().required().messages({
+      "string.base": "Thương hiệu phải là một chuỗi ký tự",
+      "string.empty": "Thương hiệu không được để trống",
+      "any.required": "Thương hiệu là bắt buộc",
+    }),
+    spu_images: Joi.array()
+      .items(Joi.string().uri().required())
+      .required()
+      .messages({
+        "array.base": "Ảnh phải là một mảng các URI chuỗi",
+        "array.empty": "Ảnh không được để trống",
+        "any.required": "Ảnh là bắt buộc",
+      }),
+    spu_variations: Joi.array().items(
+      Joi.object({
+        name: Joi.string().required().messages({
+          "string.base": "Tên biến thể phải là một chuỗi ký tự",
+          "string.empty": "Tên biến thể không được để trống",
+          "any.required": "Tên biến thể là bắt buộc",
+        }),
+        images: Joi.array().items(Joi.string().uri()).messages({
+          "array.base": "Ảnh của biến thể phải là một mảng các URI chuỗi",
+        }),
+        options: Joi.array().items(Joi.string()).messages({
+          "array.base": "Các tùy chọn của biến thể phải là một mảng các chuỗi",
+        }),
+      })
+    ),
+  }),
+};
+const SKUValidate = {
+  create: Joi.object({
+    sku_spu: Joi_ObjectId,
+    sku_tier_idx: Joi.array()
+      .items(Joi.number())
+      .default([0])
+      .label("Tier Index"),
+    sku_default: Joi.boolean().default(false).label("Default SKU"),
+    sku_slug: Joi.string().required().label("SKU Slug"),
+    sku_price: Joi.number().positive().required().label("Price"),
+    sku_stock: Joi.number().integer().min(0).required().label("Stock"),
+    sku_images: Joi.array()
+      .items(Joi.string().uri())
+      .default([])
+      .label("Images"),
+    isPublished: Joi.boolean().default(false).label("Published Status"),
+    isDraft: Joi.boolean().default(true).label("Draft Status"),
+    isDeleted: Joi.boolean().default(false).label("Deleted Status"),
+  }),
+  lookup: Joi.object({
+    sku_spu: Joi_ObjectId,
+    sku_tier_idx: Joi.array()
+      .items(Joi.number())
+      .default([0])
+      .label("Tier Index"),
+  }),
+};
+
 export {
   ShopValidate,
   ProductValidate,
@@ -176,4 +259,6 @@ export {
   RBACValidate,
   TemplateValidate,
   UserValidate,
+  SPUValidate,
+  SKUValidate,
 };

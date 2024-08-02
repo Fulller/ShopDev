@@ -20,6 +20,8 @@ import RBACRouter from "./rbac.route.js";
 import MailerRouter from "./mailer.route.js";
 import TemplateRouter from "./template.route.js";
 import UserRouter from "./user.route.js";
+import SPURouter from "./spu.route.js";
+import SKURouter from "./sku.route.js";
 
 import { PERMISSION } from "../configs/const.config.js";
 const router = Router();
@@ -44,6 +46,8 @@ router.use("/rbac", RBACRouter);
 router.use("/mailer", MailerRouter);
 router.use("/template", TemplateRouter);
 router.use("/user", UserRouter);
+router.use("/spu", SPURouter);
+router.use("/sku", SKURouter);
 
 router.use(notFound);
 router.use(handleError);
