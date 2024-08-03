@@ -9,7 +9,7 @@ function configureGoogleAuthPassport() {
       {
         clientID: env.auth.google.clientID,
         clientSecret: env.auth.google.clientSecret,
-        callbackURL: "/api/user/google/callback",
+        callbackURL: `${env.app.serverUrl}/api/user/google/callback`,
       },
       (accessToken, refreshToken, profile, done) => {
         return done(null, profile);
@@ -32,7 +32,7 @@ function configureGitHubAuthPassport() {
       {
         clientID: env.auth.github.clientID,
         clientSecret: env.auth.github.clientSecret,
-        callbackURL: "/api/user/github/callback",
+        callbackURL: `${env.app.serverUrl}/api/user/github/callback`,
       },
       (accessToken, refreshToken, profile, done) => {
         return done(null, profile);
