@@ -8,3 +8,4 @@ dockerfile
 *.dockerignore
 doc
 src/logs
+src/test

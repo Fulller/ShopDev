@@ -7,7 +7,7 @@ function checkPermission({ action, resource, possession }) {
     try {
       const userRole = _.get(req, "user.usr_role.rol_name");
       if (!userRole) {
-        throw createHttpError(403, "checkPermission no user");
+        throw createHttpError(403, "Check permission :: no role");
       }
       const permission = (await getAccessControl()).permission({
         role: userRole,
@@ -18,7 +18,7 @@ function checkPermission({ action, resource, possession }) {
       if (permission.granted) {
         next();
       } else {
-        throw createHttpError(403, "Forbidden checkPermission");
+        throw createHttpError(403, "Check permission :: invalid");
       }
     } catch (error) {
       next(error);

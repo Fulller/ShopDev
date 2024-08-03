@@ -8,6 +8,14 @@ const AWSS3Controller = {
       metadata: { fileUrl: await AWSS3Service.uploadFile(req.file) },
     });
   },
+  async deleteFile(req, res) {
+    const fileUrl = req.query.fileUrl || req.body.fileUrl;
+    await AWSS3Service.deleteFile(fileUrl);
+    return res.fly({
+      status: 200,
+      message: `Delete file ${fileUrl} successfuly`,
+    });
+  },
 };
 
 export default AWSS3Controller;

@@ -13,6 +13,7 @@ export {
   cloudinaryToServer,
   s3ToServer,
   serverToCloudinary,
+  fileURLS3toFileName,
 } from "./proxyURL.util.js";
 export { googleToLocal, githubToLocal } from "./convertProfile.util.js";
 export { default as clientAuthenURL } from "./clientAuthenURL.js";

@@ -11,5 +11,13 @@ function serverToCloudinary(url) {
 function s3ToServer({ serverUrl, storagePath, fileName }) {
   return `${serverUrl}${storagePath}/${fileName}`;
 }
+function fileURLS3toFileName(fileUrl) {
+  return fileUrl.split(`${STORAGE_PATH.S3}/`)[1];
+}
 
-export { cloudinaryToServer, s3ToServer, serverToCloudinary };
+export {
+  cloudinaryToServer,
+  s3ToServer,
+  serverToCloudinary,
+  fileURLS3toFileName,
+};
