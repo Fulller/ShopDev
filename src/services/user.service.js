@@ -18,7 +18,7 @@ const UserService = {
       throw createHttpError(400, "Email has existed");
     }
     const token = await OTPSevice.generate({ email });
-    const verifyLink = `${env.app.serverUrl}/api/user/verify-signup-otp?token=${token}&email=${email}`;
+    const verifyLink = `${env.app.serverUrl}/api/user/email/verify-signup-otp?token=${token}&email=${email}`;
     MailerSevice.sendMailVerifySignUp(email, verifyLink);
   },
   async verifySignUpOTP({ email, token }) {

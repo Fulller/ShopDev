@@ -15,3 +15,4 @@ export {
   serverToCloudinary,
 } from "./proxyURL.util.js";
 export { googleToLocal, githubToLocal } from "./convertProfile.util.js";
+export { default as clientAuthenURL } from "./clientAuthenURL.js";

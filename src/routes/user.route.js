@@ -7,19 +7,19 @@ import { validate, controller, authenticate } from "../middlewares/index.js";
 const UserRouter = Router();
 
 UserRouter.post(
-  "/local/signup",
+  "/email/signup",
   validate(UserValidate.signUp),
-  controller(UserController.local.signUp)
+  controller(UserController.email.signUp)
 );
 UserRouter.post(
-  "/local/login",
+  "/email/login",
   validate(UserValidate.logIn),
-  controller(UserController.local.logIn)
+  controller(UserController.email.logIn)
 );
 UserRouter.get(
-  "/local/verify-signup-otp",
+  "/email/verify-signup-otp",
   validate(UserValidate.verifySignUpOTP, "query"),
-  controller(UserController.local.verifySignUpOTP)
+  controller(UserController.email.verifySignUpOTP)
 );
 UserRouter.get("/google", (req, res, next) => {
   passport.authenticate("google", {

@@ -1,10 +1,13 @@
 import UserService from "../services/user.service.js";
 import JWTService from "../services/jwt.service.js";
-import { googleToLocal, githubToLocal } from "../utils/index.js";
-import env from "../configs/env.config.js";
+import {
+  googleToLocal,
+  githubToLocal,
+  clientAuthenURL,
+} from "../utils/index.js";
 
 const UserController = {
-  local: {
+  email: {
     async signUp(req, res) {
       return res.fly({
         status: 200,
@@ -26,15 +29,11 @@ const UserController = {
     },
     async verifySignUpOTP(req, res) {
       const user = await UserService.verifySignUpOTP(req.query);
-      const [access, refresh] = await Promise.all([
+      const [accessToken, refreshToken] = await Promise.all([
         JWTService.access.sign(user),
         JWTService.refresh.sign(user, user._id),
       ]);
-      return res.fly({
-        status: 200,
-        message: "Verify OTP successfully",
-        metadata: { user, tokens: { access, refresh } },
-      });
+      return res.redirect(clientAuthenURL(accessToken, refreshToken));
     },
   },
   social: {
@@ -44,9 +43,7 @@ const UserController = {
         JWTService.access.sign(user),
         JWTService.refresh.sign(user, user._id),
       ]);
-      return res.redirect(
-        `${env.auth.clientUrl}/auth?accesstoken=${accessToken}&refreshtoken=${refreshToken}`
-      );
+      return res.redirect(clientAuthenURL(accessToken, refreshToken));
     },
     async gitHubCallback(req, res) {
       const user = await UserService.signUpFromSocial(githubToLocal(req.user));
@@ -54,9 +51,7 @@ const UserController = {
         JWTService.access.sign(user),
         JWTService.refresh.sign(user, user._id),
       ]);
-      return res.redirect(
-        `${env.auth.clientUrl}/auth?accesstoken=${accessToken}&refreshtoken=${refreshToken}`
-      );
+      return res.redirect(clientAuthenURL(accessToken, refreshToken));
     },
   },
   async profile(req, res) {
