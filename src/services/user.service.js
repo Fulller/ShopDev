@@ -10,7 +10,10 @@ import _ from "lodash";
 
 const UserService = {
   async signUp({ email }) {
-    const user = await User.findOne({ usr_email: email });
+    const user = await User.findOne({
+      usr_email: email,
+      usr_isFromSocial: false,
+    });
     if (user) {
       throw createHttpError(400, "Email has existed");
     }
@@ -33,7 +36,10 @@ const UserService = {
     return null;
   },
   async logIn({ email, password }) {
-    const user = await User.findOne({ usr_email: email });
+    const user = await User.findOne({
+      usr_email: email,
+      usr_isFromSocial: false,
+    });
     if (!user) {
       throw createHttpError(404, "Email not found");
     }
@@ -47,6 +53,9 @@ const UserService = {
         select: "_id rol_name",
       })
     );
+  },
+  async signUpFromSocial(profile) {
+    return pickAccountData(await UserRepository.createFromSocial(profile));
   },
 };
 export default UserService;

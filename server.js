@@ -6,10 +6,10 @@ const PORT = env.app.port;
 const isAlwaysLive = env.app.alwaysLive;
 
 const server = app.listen(PORT, "0.0.0.0", () => {
-  console.log(`APP RUNNING ON PORT ::  ${PORT}`);
+  console.log(`APP :: RUNNING :: ${PORT}`);
   keepAlive(isAlwaysLive);
 });
 
 process.on("SIGINT", () => {
-  server.close(() => console.log("EXIT SERVER EXPRESS"));
+  server.close(() => console.log("APP :: EXIT"));
 });

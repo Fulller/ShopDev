@@ -19,5 +19,6 @@ async function configureProxyCloudinary(app) {
       },
     })
   );
+  console.log("CONFIGURED ::  PROXY :: CLOUDINARY");
 }
 export { cloudinary, configureCloudinary, configureProxyCloudinary };

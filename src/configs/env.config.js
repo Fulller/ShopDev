@@ -28,16 +28,14 @@ const env = {
   },
   auth: {
     google: {
-      clientID: getEnvValue(
-        "AUTH_GOOGLE_CLIENTID",
-        "609768689359-fcd9ft4sj5v6tndo7vcft164g4f85nvv.apps.googleusercontent.com"
-      ),
-      clientSecret: getEnvValue(
-        "AUTH_GOOGLE_CLIENTSECRET",
-        "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"
-      ),
+      clientID: getEnvValue("AUTH_GOOGLE_CLIENTID"),
+      clientSecret: getEnvValue("AUTH_GOOGLE_CLIENTSECRET"),
     },
-    clientUrl: getEnvValue("AUTH_CLIENTURL", "http://localhost:3000"),
+    github: {
+      clientID: getEnvValue("AUTH_GITHUB_CLIENTID"),
+      clientSecret: getEnvValue("AUTH_GITHUB_CLIENTSECRET"),
+    },
+    clientUrl: getEnvValue("AUTH_CLIENTURL"),
     jwt: {
       access_serect_key: getEnvValue("AUTH_JWT_ACCESS_SECRECT_KEY", "ACCESS"),
       refresh_serect_key: getEnvValue(

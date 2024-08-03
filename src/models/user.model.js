@@ -6,13 +6,11 @@ const COLLECTION_NAME = "Users";
 
 const userSchema = new Schema(
   {
-    usr_id: {
-      type: SchemaTypes.Number,
-      unique: true,
+    usr_avatar: {
+      type: SchemaTypes.String,
     },
     usr_slug: {
       type: SchemaTypes.String,
-      require: true,
     },
     usr_name: {
       type: SchemaTypes.String,
@@ -28,7 +26,6 @@ const userSchema = new Schema(
     },
     usr_email: {
       type: SchemaTypes.String,
-      require: true,
     },
     usr_phone: {
       type: SchemaTypes.String,
@@ -51,6 +48,11 @@ const userSchema = new Schema(
       type: SchemaTypes.String,
       enum: Object.values(USER_STATUS),
       default: USER_STATUS.PENDING,
+    },
+    usr_isFromSocial: { type: SchemaTypes.Boolean, default: false },
+    usr_provider: {
+      name: { type: SchemaTypes.String },
+      id: { type: SchemaTypes.String },
     },
   },
   { timestamps: true, collection: COLLECTION_NAME }

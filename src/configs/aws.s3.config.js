@@ -75,5 +75,6 @@ async function configureProxyS3(app) {
       },
     })
   );
+  console.log("CONFIGURED ::  PROXY :: S3");
 }
 export { connectS3, s3Client, configureProxyS3 };

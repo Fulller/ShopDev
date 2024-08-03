@@ -30,6 +30,7 @@ router.use(responseFlying);
 
 router.get("/ping", (req, res) => res.fly({ status: 200, message: "Pong" }));
 router.use("/api", router);
+router.use("/user", UserRouter);
 router.use(checkAPIKey);
 router.use(checkPermissionAPIKey(PERMISSION.ZERO));
 router.use("/api-key", APIKeyRouter);
@@ -45,7 +46,6 @@ router.use("/upload", UploadRouter);
 router.use("/rbac", RBACRouter);
 router.use("/mailer", MailerRouter);
 router.use("/template", TemplateRouter);
-router.use("/user", UserRouter);
 router.use("/spu", SPURouter);
 router.use("/sku", SKURouter);
 

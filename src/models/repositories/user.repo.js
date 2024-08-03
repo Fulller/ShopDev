@@ -6,7 +6,10 @@ import bcrypt from "bcrypt";
 
 const UserRepository = {
   async createDefaultWithEmail(email) {
-    const user = await User.findOne({ usr_email: email });
+    const user = await User.findOne({
+      usr_email: email,
+      usr_isFromSocial: false,
+    });
     if (user) {
       throw createHttpError(400, `User with email ${email} has existed`);
     }
@@ -26,7 +29,10 @@ const UserRepository = {
     });
   },
   async initAdmin({ email, password }) {
-    const admin = await User.findOne({ usr_email: email });
+    const admin = await User.findOne({
+      usr_email: email,
+      usr_isFromSocial: false,
+    });
     if (admin) {
       return null;
     }
@@ -42,6 +48,20 @@ const UserRepository = {
       usr_slug: email,
     });
     return await newAdmin.populate({
+      path: "usr_role",
+      select: "_id rol_name",
+    });
+  },
+  async createFromSocial(profile) {
+    let user = await User.findOne({
+      usr_provider: profile.usr_provider,
+      usr_isFromSocial: true,
+    });
+    if (!user) {
+      const usr_role = await RoleReposiroty.findRoleIdByName(ROLE_NAMES.USER);
+      user = await User.create({ ...profile, usr_role });
+    }
+    return await user.populate({
       path: "usr_role",
       select: "_id rol_name",
     });

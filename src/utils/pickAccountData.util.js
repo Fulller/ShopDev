@@ -9,7 +9,10 @@ function pickAccountData(profile) {
     "usr_name",
     "usr_email",
     "usr_role",
+    "usr_provider",
+    "usr_isFromSocial",
   ];
   return _.pick(profile, pick);
 }
+
 export default pickAccountData;

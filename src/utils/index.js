@@ -14,3 +14,4 @@ export {
   s3ToServer,
   serverToCloudinary,
 } from "./proxyURL.util.js";
+export { googleToLocal, githubToLocal } from "./convertProfile.util.js";
