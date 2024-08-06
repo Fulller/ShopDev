@@ -1,7 +1,6 @@
 // import transporter from "../configs/aws.ses.config.js";
 import transporter from "../configs/gmail.config.js";
 import TemplateService from "./template.service.js";
-import createHttpError from "http-errors";
 import { replaceHTMLTemplate } from "../utils/index.js";
 
 const MailerService = {
@@ -31,6 +30,13 @@ const MailerService = {
       null,
       temHtml
     );
+  },
+  async sendMailWelcome(email, default_password) {
+    const template = await TemplateService.get({ tem_id: 2 });
+    const temHtml = replaceHTMLTemplate(template.tem_html, {
+      default_password,
+    });
+    MailerService.sendMail(email, "Welcome to our service", null, temHtml);
   },
 };
 

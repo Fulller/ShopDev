@@ -27,7 +27,6 @@ import { PERMISSION } from "../configs/const.config.js";
 const router = Router();
 
 router.use(responseFlying);
-
 router.get("/ping", (req, res) => res.fly({ status: 200, message: "Pong" }));
 router.use("/api", router);
 router.use("/user", UserRouter);

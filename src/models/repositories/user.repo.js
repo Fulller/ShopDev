@@ -5,7 +5,7 @@ import createHttpError from "http-errors";
 import bcrypt from "bcrypt";
 
 const UserRepository = {
-  async createDefaultWithEmail(email) {
+  async createDefaultWithEmail(email, password) {
     const user = await User.findOne({
       usr_email: email,
       usr_isFromSocial: false,
@@ -15,7 +15,7 @@ const UserRepository = {
     }
     const [usr_role, usr_password] = await Promise.all([
       RoleReposiroty.findRoleIdByName(ROLE_NAMES.USER),
-      bcrypt.hash(email, 10),
+      bcrypt.hash(password, 10),
     ]);
     const newUser = await User.create({
       usr_name: email,

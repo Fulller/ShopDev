@@ -4,7 +4,7 @@ import MailerSevice from "./mailer.service.js";
 import OTPSevice from "./otp.service.js";
 import createHttpError from "http-errors";
 import env from "../configs/env.config.js";
-import { pickAccountData } from "../utils/index.js";
+import { pickAccountData, generateRandomPassword } from "../utils/index.js";
 import bcrypt from "bcrypt";
 import _ from "lodash";
 
@@ -23,10 +23,13 @@ const UserService = {
   },
   async verifySignUpOTP({ email, token }) {
     await OTPSevice.verify({ email, token });
-    const newUser = pickAccountData(
-      await UserRepository.createDefaultWithEmail(email)
+    const defaultPassword = generateRandomPassword();
+    const newUser = await UserRepository.createDefaultWithEmail(
+      email,
+      defaultPassword
     );
-    return newUser;
+    MailerSevice.sendMailWelcome(email, defaultPassword);
+    return pickAccountData(newUser);
   },
   async initAdmin({ email, password }) {
     const admin = await UserRepository.initAdmin({ email, password });

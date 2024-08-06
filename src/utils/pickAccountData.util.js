@@ -7,6 +7,7 @@ function pickAccountData(profile) {
     "name",
     "roles",
     "usr_name",
+    "usr_avatar",
     "usr_email",
     "usr_role",
     "usr_provider",

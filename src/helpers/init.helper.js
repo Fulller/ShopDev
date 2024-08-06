@@ -6,6 +6,7 @@ import {
   ROLE_NAMES,
   PERMISSION,
   TEMPLATE_HTML_ID_1,
+  TEMPLATE_HTML_ID_2,
 } from "../configs/const.config.js";
 import env from "../configs/env.config.js";
 import _ from "lodash";
@@ -98,20 +99,30 @@ async function initAPIKey() {
     console.log(`INIT :: API_KEY`);
   }
 }
-async function initTemEmaiHTMLID1() {
+async function initTemEmaiHTMLID() {
   try {
-    await TemplateService.add({
-      tem_id: 1,
-      tem_name: "HTML SEND MAIL VERIFY LINK",
-      tem_html: TEMPLATE_HTML_ID_1,
-    });
-    console.log("INIT :: TEM_HTML_ID_1");
+    const templates = [
+      {
+        tem_id: 1,
+        tem_name: "HTML SEND MAIL VERIFY LINK",
+        tem_html: TEMPLATE_HTML_ID_1,
+      },
+      {
+        tem_id: 2,
+        tem_name: "HTML SEND MAIL WELCOME WITH DEFAULT PASSWORD",
+        tem_html: TEMPLATE_HTML_ID_2,
+      },
+    ];
+    await Promise.all(
+      templates.map((template) => TemplateService.add(template))
+    );
+    console.log("INIT :: TEM_HTML");
   } catch {}
 }
 async function initApp() {
   try {
     await initRole();
-    await Promise.all([initAPIKey(), initAdmin(), initTemEmaiHTMLID1()]);
+    await Promise.all([initAPIKey(), initAdmin(), initTemEmaiHTMLID()]);
   } catch (err) {
     console.log(err);
   }
