@@ -21,6 +21,16 @@ UserRouter.get(
   validate(UserValidate.verifySignUpOTP, "query"),
   controller(UserController.email.verifySignUpOTP)
 );
+UserRouter.post(
+  "/email/before_forgot_password",
+  validate(UserValidate.beforeForgotPassword),
+  controller(UserController.email.beforeForgotPassword)
+);
+UserRouter.post(
+  "/email/after_for_forgot",
+  validate(UserValidate.afterForgotPassword),
+  controller(UserController.email.afterForgotPassword)
+);
 UserRouter.get("/google", (req, res, next) => {
   passport.authenticate("google", {
     scope: ["profile", "email"],

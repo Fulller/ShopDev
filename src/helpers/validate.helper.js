@@ -157,6 +157,12 @@ const TemplateValidate = {
 };
 const UserValidate = {
   signUp: Joi.object({ email: Joi.string().email().required() }),
+  beforeForgotPassword: Joi.object({ email: Joi.string().email().required() }),
+  afterForgotPassword: Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+    token: Joi.any().required(),
+  }),
   logIn: Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().required(),

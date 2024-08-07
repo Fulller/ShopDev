@@ -5,11 +5,14 @@ import createHttpError from "http-errors";
 import bcrypt from "bcrypt";
 
 const UserRepository = {
-  async createDefaultWithEmail(email, password) {
-    const user = await User.findOne({
+  async findUserFromLocalByEmail(email) {
+    return User.findOne({
       usr_email: email,
       usr_isFromSocial: false,
     });
+  },
+  async createDefaultWithEmail(email, password) {
+    const user = await UserRepository.findUserFromLocalByEmail(email);
     if (user) {
       throw createHttpError(400, `User with email ${email} has existed`);
     }
@@ -29,10 +32,7 @@ const UserRepository = {
     });
   },
   async initAdmin({ email, password }) {
-    const admin = await User.findOne({
-      usr_email: email,
-      usr_isFromSocial: false,
-    });
+    const admin = await UserRepository.findUserFromLocalByEmail(email);
     if (admin) {
       return null;
     }
@@ -65,6 +65,14 @@ const UserRepository = {
       path: "usr_role",
       select: "_id rol_name",
     });
+  },
+  async newPasswordForForgot({ email, password }) {
+    const user = await UserRepository.findUserFromLocalByEmail(email);
+    if (!user) {
+      throw createHttpError(400, `User with email ${email} dose not exist`);
+    }
+    user.usr_password = await bcrypt.hash(password, 10);
+    await user.save();
   },
 };
 export default UserRepository;

@@ -7,6 +7,7 @@ import {
   PERMISSION,
   TEMPLATE_HTML_ID_1,
   TEMPLATE_HTML_ID_2,
+  TEMPLATE_HTML_ID_3,
 } from "../configs/const.config.js";
 import env from "../configs/env.config.js";
 import _ from "lodash";
@@ -111,6 +112,11 @@ async function initTemEmaiHTMLID() {
         tem_id: 2,
         tem_name: "HTML SEND MAIL WELCOME WITH DEFAULT PASSWORD",
         tem_html: TEMPLATE_HTML_ID_2,
+      },
+      {
+        tem_id: 3,
+        tem_name: "HTML SEND MAIL FORGOT PASSWORD OTP",
+        tem_html: TEMPLATE_HTML_ID_3,
       },
     ];
     await Promise.all(

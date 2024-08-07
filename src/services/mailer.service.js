@@ -38,6 +38,13 @@ const MailerService = {
     });
     MailerService.sendMail(email, "Welcome to our service", null, temHtml);
   },
+  async sendMailForgotPaswordOTP(email, forgot_password_otp) {
+    const template = await TemplateService.get({ tem_id: 3 });
+    const temHtml = replaceHTMLTemplate(template.tem_html, {
+      forgot_password_otp,
+    });
+    MailerService.sendMail(email, "Forgot password", null, temHtml);
+  },
 };
 
 export default MailerService;

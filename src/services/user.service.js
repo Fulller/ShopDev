@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 import UserRepository from "../models/repositories/user.repo.js";
 import MailerSevice from "./mailer.service.js";
-import OTPSevice from "./otp.service.js";
+import OTPService from "./otp.service.js";
 import createHttpError from "http-errors";
 import env from "../configs/env.config.js";
 import { pickAccountData, generateRandomPassword } from "../utils/index.js";
@@ -10,19 +10,16 @@ import _ from "lodash";
 
 const UserService = {
   async signUp({ email }) {
-    const user = await User.findOne({
-      usr_email: email,
-      usr_isFromSocial: false,
-    });
+    const user = await UserRepository.findUserFromLocalByEmail(email);
     if (user) {
       throw createHttpError(400, "Email has existed");
     }
-    const token = await OTPSevice.generate({ email });
+    const token = await OTPService.generateOTP({ email });
     const verifyLink = `${env.app.serverUrl}/api/user/email/verify-signup-otp?token=${token}&email=${email}`;
     MailerSevice.sendMailVerifySignUp(email, verifyLink);
   },
   async verifySignUpOTP({ email, token }) {
-    await OTPSevice.verify({ email, token });
+    await OTPService.verifyOTP({ email, token });
     const defaultPassword = generateRandomPassword();
     const newUser = await UserRepository.createDefaultWithEmail(
       email,
@@ -30,6 +27,28 @@ const UserService = {
     );
     MailerSevice.sendMailWelcome(email, defaultPassword);
     return pickAccountData(newUser);
+  },
+  async beforeForgotPassword({ email }) {
+    const user = await UserRepository.findUserFromLocalByEmail(email);
+    if (!user) {
+      throw createHttpError(400, "Email does not exist");
+    }
+    const token = await OTPService.generateForgotPasswordOTP({ email });
+    MailerSevice.sendMailForgotPaswordOTP(email, token);
+  },
+  async afterForgotPassword({ email, token, password }) {
+    const user = await UserRepository.findUserFromLocalByEmail(email);
+    if (!user) {
+      throw createHttpError(400, "Email does not exist");
+    }
+    await OTPService.verifyForgotPasswordOTP({ email, token });
+    await UserRepository.newPasswordForForgot({ email, password });
+    return pickAccountData(
+      await user.populate({
+        path: "usr_role",
+        select: "_id rol_name",
+      })
+    );
   },
   async initAdmin({ email, password }) {
     const admin = await UserRepository.initAdmin({ email, password });

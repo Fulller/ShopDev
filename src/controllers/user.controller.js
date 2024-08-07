@@ -35,6 +35,26 @@ const UserController = {
       ]);
       return res.redirect(clientAuthenURL(accessToken, refreshToken));
     },
+    async beforeForgotPassword(req, res) {
+      await UserService.beforeForgotPassword(req.body);
+      return res.fly({
+        status: 200,
+        message:
+          "Request forgot password successfully. Please check your email tc conform otp",
+      });
+    },
+    async afterForgotPassword(req, res) {
+      const user = await UserService.afterForgotPassword(req.body);
+      const [access, refresh] = await Promise.all([
+        JWTService.access.sign(user),
+        JWTService.refresh.sign(user, user._id),
+      ]);
+      return res.fly({
+        status: 200,
+        message: "New password for forgot successfully",
+        metadata: { user, tokens: { access, refresh } },
+      });
+    },
   },
   social: {
     async googleCallback(req, res) {
