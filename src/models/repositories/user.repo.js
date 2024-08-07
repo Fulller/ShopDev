@@ -1,6 +1,7 @@
 import User from "../user.model.js";
 import RoleReposiroty from "./role.repo.js";
 import { ROLE_NAMES } from "../../configs/const.config.js";
+import { pickAccountData } from "../../utils/index.js";
 import createHttpError from "http-errors";
 import bcrypt from "bcrypt";
 
@@ -20,15 +21,11 @@ const UserRepository = {
       RoleReposiroty.findRoleIdByName(ROLE_NAMES.USER),
       bcrypt.hash(password, 10),
     ]);
-    const newUser = await User.create({
+    return await User.create({
       usr_name: email,
       usr_password,
       usr_email: email,
       usr_role,
-    });
-    return await newUser.populate({
-      path: "usr_role",
-      select: "_id rol_name",
     });
   },
   async initAdmin({ email, password }) {
@@ -61,10 +58,7 @@ const UserRepository = {
       const usr_role = await RoleReposiroty.findRoleIdByName(ROLE_NAMES.USER);
       user = await User.create({ ...profile, usr_role });
     }
-    return await user.populate({
-      path: "usr_role",
-      select: "_id rol_name",
-    });
+    return await UserRepository.userFormatForToken(user);
   },
   async newPasswordForForgot({ email, password }) {
     const user = await UserRepository.findUserFromLocalByEmail(email);
@@ -73,6 +67,14 @@ const UserRepository = {
     }
     user.usr_password = await bcrypt.hash(password, 10);
     await user.save();
+  },
+  async userFormatForToken(user) {
+    return pickAccountData(
+      await user.populate({
+        path: "usr_role",
+        select: "_id rol_name",
+      })
+    );
   },
 };
 export default UserRepository;

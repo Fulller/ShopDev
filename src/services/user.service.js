@@ -26,7 +26,7 @@ const UserService = {
       defaultPassword
     );
     MailerSevice.sendMailWelcome(email, defaultPassword);
-    return pickAccountData(newUser);
+    return await UserRepository.userFormatForToken(newUser);
   },
   async beforeForgotPassword({ email }) {
     const user = await UserRepository.findUserFromLocalByEmail(email);
@@ -43,12 +43,7 @@ const UserService = {
     }
     await OTPService.verifyForgotPasswordOTP({ email, token });
     await UserRepository.newPasswordForForgot({ email, password });
-    return pickAccountData(
-      await user.populate({
-        path: "usr_role",
-        select: "_id rol_name",
-      })
-    );
+    return await UserRepository.userFormatForToken(user);
   },
   async initAdmin({ email, password }) {
     const admin = await UserRepository.initAdmin({ email, password });
@@ -58,10 +53,7 @@ const UserService = {
     return null;
   },
   async logIn({ email, password }) {
-    const user = await User.findOne({
-      usr_email: email,
-      usr_isFromSocial: false,
-    });
+    const user = await UserRepository.findUserFromLocalByEmail(email);
     if (!user) {
       throw createHttpError(404, "Email not found");
     }
@@ -69,12 +61,7 @@ const UserService = {
     if (!isValidPassowrd) {
       throw createHttpError(401, "Invalid password");
     }
-    return pickAccountData(
-      await user.populate({
-        path: "usr_role",
-        select: "_id rol_name",
-      })
-    );
+    return await UserRepository.userFormatForToken(user);
   },
   async signUpFromSocial(profile) {
     return pickAccountData(await UserRepository.createFromSocial(profile));
